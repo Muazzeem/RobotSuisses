@@ -1,25 +1,23 @@
 <template>
   <header class="header">
-    <div class="container">
-      <div class="logo">
-        <div class="logo-icon"></div>
-        <span class="logo-text">RobotSuisse</span>
-      </div>
+    <div class="logo">
+      <div class="logo-icon"></div>
+      <span class="logo-text">RobotSuisse</span>
+    </div>
 
-      <nav class="nav">
-        <a href="#home" class="nav-link">Home</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#industries" class="nav-link">Industries</a>
-        <a href="#products" class="nav-link">Products</a>
-        <a href="#blog" class="nav-link">Blog</a>
-      </nav>
+    <nav class="nav">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#industries" class="nav-link">Industries</a>
+      <a href="#products" class="nav-link">Products</a>
+      <a href="#blog" class="nav-link">Blog</a>
+    </nav>
 
-      <div class="header-actions">
-        <button class="lang-btn">
-          <span class="globe-icon">🌐</span> EN
-        </button>
-        <button class="contact-btn">Contact Us</button>
-      </div>
+    <div class="header-actions">
+      <button class="lang-btn">
+        <span class="globe-icon">🌐</span> EN
+      </button>
+      <button class="contact-btn">Contact Us</button>
     </div>
   </header>
 </template>
@@ -31,13 +29,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 1.5rem 0;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  padding: 1.5rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

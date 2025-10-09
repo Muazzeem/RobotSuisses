@@ -1,7 +1,6 @@
 <template>
   <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
+    <div class="footer-content">
         <div class="footer-brand">
           <div class="logo">
             <div class="logo-dots">
@@ -69,9 +68,9 @@
             <a href="#" class="link">Documentation</a>
           </div>
         </div>
-      </div>
+    </div>
 
-      <div class="footer-bottom">
+    <div class="footer-bottom">
         <p class="copyright">© 2025 RobotSuisse. All rights reserved.</p>
 
         <div class="footer-bottom-links">
@@ -102,7 +101,6 @@
             </svg>
           </a>
         </div>
-      </div>
     </div>
   </footer>
 </template>
@@ -111,20 +109,15 @@
 .footer {
   background: #0a0a0a;
   color: white;
-  padding: 5rem 0 2rem;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  padding: 5rem 2rem 2rem;
 }
 
 .footer-content {
+  max-width: 1400px;
+  margin: 0 auto 3rem;
   display: grid;
   grid-template-columns: 1.2fr 1.8fr;
   gap: 5rem;
-  margin-bottom: 3rem;
   padding-bottom: 3rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -231,6 +224,8 @@
 }
 
 .footer-bottom {
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
