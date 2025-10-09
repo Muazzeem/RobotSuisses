@@ -8,6 +8,7 @@
     <FeaturedSection />
     <BlogSection />
     <IndustryCallout />
+    <FaqSection />
     <ContactSection />
     <Footer />
   </div>
