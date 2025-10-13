@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <div>
       <HeroSection />
     </div>
     <div class="container">
