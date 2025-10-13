@@ -5,7 +5,7 @@
 
     <div class="container">
       <section class="hero-section">
-        <article class="featured-post">
+        <NuxtLink to="/blog/small-business-guide" class="featured-post">
           <div class="featured-image">
             <img src="https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Featured post" />
           </div>
@@ -16,18 +16,23 @@
               A comprehensive guide for Swiss SMEs looking to implement their first robotic solutions without breaking the bank.
             </p>
           </div>
-        </article>
+        </NuxtLink>
       </section>
 
       <section class="blog-grid">
-        <BlogCard
+        <NuxtLink
           v-for="post in blogPosts"
           :key="post.id"
-          :image="post.image"
-          :date="post.date"
-          :title="post.title"
-          :excerpt="post.excerpt"
-        />
+          :to="`/blog/${post.slug}`"
+          class="blog-link"
+        >
+          <BlogCard
+            :image="post.image"
+            :date="post.date"
+            :title="post.title"
+            :excerpt="post.excerpt"
+          />
+        </NuxtLink>
       </section>
 
       <div class="load-more">
@@ -54,6 +59,7 @@ useHead({
 const blogPosts = ref([
   {
     id: 1,
+    slug: 'small-business-guide',
     image: 'https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'Small Business Guide: Getting Started with Robotic Automation',
@@ -61,6 +67,7 @@ const blogPosts = ref([
   },
   {
     id: 2,
+    slug: 'logistics-revolution',
     image: 'https://images.pexels.com/photos/4481258/pexels-photo-4481258.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'Logistics Revolution: How Warehouse Robots Are Changing the Game',
@@ -68,6 +75,7 @@ const blogPosts = ref([
   },
   {
     id: 3,
+    slug: 'robot-rentals-economics',
     image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'The Economics of Robot Rentals vs. Purchase: A Swiss Perspective',
@@ -75,6 +83,7 @@ const blogPosts = ref([
   },
   {
     id: 4,
+    slug: 'small-business-guide',
     image: 'https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'Small Business Guide: Getting Started with Robotic Automation',
@@ -82,6 +91,7 @@ const blogPosts = ref([
   },
   {
     id: 5,
+    slug: 'logistics-revolution',
     image: 'https://images.pexels.com/photos/4481258/pexels-photo-4481258.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'Logistics Revolution: How Warehouse Robots Are Changing the Game',
@@ -89,6 +99,7 @@ const blogPosts = ref([
   },
   {
     id: 6,
+    slug: 'robot-rentals-economics',
     image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'The Economics of Robot Rentals vs. Purchase: A Swiss Perspective',
@@ -96,6 +107,7 @@ const blogPosts = ref([
   },
   {
     id: 7,
+    slug: 'small-business-guide',
     image: 'https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'Small Business Guide: Getting Started with Robotic Automation',
@@ -103,6 +115,7 @@ const blogPosts = ref([
   },
   {
     id: 8,
+    slug: 'logistics-revolution',
     image: 'https://images.pexels.com/photos/4481258/pexels-photo-4481258.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'Logistics Revolution: How Warehouse Robots Are Changing the Game',
@@ -110,6 +123,7 @@ const blogPosts = ref([
   },
   {
     id: 9,
+    slug: 'robot-rentals-economics',
     image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg?auto=compress&cs=tinysrgb&w=600',
     date: '26 Feb 2025',
     title: 'The Economics of Robot Rentals vs. Purchase: A Swiss Perspective',
@@ -133,6 +147,12 @@ const blogPosts = ref([
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.featured-post:hover {
+  transform: translateY(-4px);
 }
 
 .featured-image {
@@ -180,6 +200,10 @@ const blogPosts = ref([
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   padding: 2rem 0 4rem;
+}
+
+.blog-link {
+  text-decoration: none;
 }
 
 .load-more {
