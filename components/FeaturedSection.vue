@@ -34,25 +34,40 @@
           </div>
 
           <div class="product-actions">
-            <button class="btn-details">Details</button>
+            <button class="btn-details" @click="openModal(product)">Details</button>
             <button class="btn-quote">Quote</button>
           </div>
         </div>
       </div>
     </div>
+
+    <RobotDetailsModal
+      :is-open="isModalOpen"
+      :robot="selectedRobot"
+      @close="closeModal"
+    />
   </section>
 </template>
 
 <script setup>
+const isModalOpen = ref(false)
+const selectedRobot = ref(null)
+
 const products = [
   {
     id: 1,
     name: 'SwissBot Pro X1',
     price: 2499,
     category: 'Industrial',
-    batteryLife: '120 minutes',
-    coverage: '200m²',
+    batteryLife: '<120 minutes',
+    coverage: '200m',
     noiseLevel: '<55dB',
+    dimensions: '840 × 600 × 490 mm',
+    airFiltration: 'H11 (optional H13)',
+    vacuumingWidth: '55 cm',
+    sweepingWidth: '(27.6 in, with side brush)',
+    pathClearance: 'Min width: 75 cm (29.53 in)',
+    runtime: '3–6.5 h',
     image: 'https://images.pexels.com/photos/8566472/pexels-photo-8566472.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
@@ -60,9 +75,15 @@ const products = [
     name: 'Home Helper Alpine',
     price: 2499,
     category: 'Domestic',
-    batteryLife: '120 minutes',
-    coverage: '200m²',
+    batteryLife: '<120 minutes',
+    coverage: '200m',
     noiseLevel: '<55dB',
+    dimensions: '840 × 600 × 490 mm',
+    airFiltration: 'H11 (optional H13)',
+    vacuumingWidth: '55 cm',
+    sweepingWidth: '(27.6 in, with side brush)',
+    pathClearance: 'Min width: 75 cm (29.53 in)',
+    runtime: '3–6.5 h',
     image: 'https://images.pexels.com/photos/8438918/pexels-photo-8438918.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
@@ -70,12 +91,27 @@ const products = [
     name: 'Clean Max Hospital',
     price: 2499,
     category: 'Medical',
-    batteryLife: '150 minutes',
-    coverage: '200m²',
+    batteryLife: '<150 minutes',
+    coverage: '200m',
     noiseLevel: '<55dB',
+    dimensions: '840 × 600 × 490 mm',
+    airFiltration: 'H11 (optional H13)',
+    vacuumingWidth: '55 cm',
+    sweepingWidth: '(27.6 in, with side brush)',
+    pathClearance: 'Min width: 75 cm (29.53 in)',
+    runtime: '3–6.5 h',
     image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800'
   }
 ]
+
+const openModal = (product) => {
+  selectedRobot.value = product
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+}
 </script>
 
 <style scoped>
