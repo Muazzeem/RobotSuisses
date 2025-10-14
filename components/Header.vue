@@ -15,9 +15,7 @@
     </nav>
 
     <div class="header-actions">
-      <button class="lang-btn">
-        <span class="globe-icon">🌐</span> EN
-      </button>
+      <LanguagesButton />
       <NuxtLink to="/contact-us">
         <button class="contact-btn desktop-contact">Contact Us</button>
       </NuxtLink>
@@ -153,7 +151,7 @@ onBeforeRouteUpdate(() => {
 
 .lang-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 0px;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 6px;

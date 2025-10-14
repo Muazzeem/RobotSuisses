@@ -1,5 +1,4 @@
 <template>
-    <PageHeader /> 
     <!-- Contact Sections -->
         <section class="contact-section">
             <div class="container">

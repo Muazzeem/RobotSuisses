@@ -1,5 +1,7 @@
 <template>
     <section class="page-hero">
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
         <div class="container">
             <div v-if="updatedDate">
                 <div class="update-badge">
@@ -7,7 +9,7 @@
                 </div>
             </div>
             <h1 class="hero-title">
-                {{ title }}
+                {{ route.fullPath.split('/')[1] }}
             </h1>
             <p class="hero-subtext">
                 {{ subtitle }}
@@ -33,6 +35,7 @@ const props = defineProps({
         default: "We're committed to protecting your privacy and ensuring your data is secure."
     }
 })
+const route = useRoute()
 
 const formattedDate = computed(() => props.updatedDate)
 </script>
@@ -43,14 +46,41 @@ const formattedDate = computed(() => props.updatedDate)
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #1b23360f);
     padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('https://ai.motion.com/wp-content/uploads/2023/09/industrial-robots.webp') center/cover;
+    z-index: 1;
 }
 
 .container {
     max-width: 1200px;
     width: 100%;
     text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
 .update-badge {
@@ -67,10 +97,11 @@ const formattedDate = computed(() => props.updatedDate)
 }
 
 .hero-title {
+    text-transform: capitalize;
     line-height: 4.5rem;
     font-size: 60px;
     font-weight: 600;
-    color: #111827;
+    color: white;
     margin: 0;
     max-width: 900px;
     margin-left: auto;
@@ -79,24 +110,25 @@ const formattedDate = computed(() => props.updatedDate)
 
 .hero-subtext {
     margin-top: 1rem;
-    color: #10182899;
+    color: white;
     font-size: 1.1rem;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .privacy-hero {
+    .page-hero {
         padding: 3rem 2rem;
         min-height: 350px;
     }
 
     .hero-title {
         font-size: 2.75rem;
+        line-height: 3.5rem;
     }
 }
 
 @media (max-width: 768px) {
-    .privacy-hero {
+    .page-hero {
         padding: 2.5rem 1.5rem;
         min-height: 300px;
     }
@@ -109,11 +141,12 @@ const formattedDate = computed(() => props.updatedDate)
 
     .hero-title {
         font-size: 2rem;
+        line-height: 2.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    .privacy-hero {
+    .page-hero {
         padding: 2rem 1rem;
         min-height: 250px;
     }
@@ -126,6 +159,8 @@ const formattedDate = computed(() => props.updatedDate)
 
     .hero-title {
         font-size: 1.75rem;
+        line-height: 2.25rem;
     }
 }
 </style>
+

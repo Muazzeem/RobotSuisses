@@ -110,8 +110,8 @@ onUnmounted(() => {
 
 .modal-container {
   background: white;
-  border-radius: 24px;
-  max-width: 920px;
+  border-radius: 20px;
+  max-width: 60vh;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -148,7 +148,7 @@ onUnmounted(() => {
 
 .modal-image {
   width: 100%;
-  height: 400px;
+  height: 300px;
   overflow: hidden;
   background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%);
 }
@@ -160,7 +160,7 @@ onUnmounted(() => {
 }
 
 .modal-content {
-  padding: 2.5rem;
+  padding: 1rem;
 }
 
 .modal-title {
@@ -182,8 +182,7 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   font-size: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 0rem;
 }
 
 .spec-row:last-child {
@@ -198,7 +197,7 @@ onUnmounted(() => {
 
 .spec-value {
   color: #1a1a1a;
-  font-weight: 600;
+  font-weight: 500;
   text-align: right;
 }
 

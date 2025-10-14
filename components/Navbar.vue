@@ -19,12 +19,9 @@
         </div>
     
         <div class="nav-actions">
-            <button class="lang-btn">
-            <span class="globe-icon">🌐</span> EN
-          </button>
+            <LanguagesButton textColor="black" />
             <button class="contact-btn desktop-contact">Contact Us</button>
-    
-            <!-- Mobile Menu Button -->
+            
             <button class="mobile-menu-btn" @click="toggleMenu" aria-label="Toggle menu">
             <span class="hamburger" :class="{ active: isMenuOpen }"></span>
           </button>
@@ -250,30 +247,6 @@ const getProducts = (categoryId) => {
     align-items: center;
     gap: 1rem;
 }
-
-.lang-btn {
-    background: transparent;
-    border: 1px solid #e5e5e5;
-    color: #1a1a1a;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    transition: all 0.2s;
-}
-
-.lang-btn:hover {
-    border-color: #d4d4d4;
-    background: #fafafa;
-}
-
-.globe-icon {
-    font-size: 1rem;
-}
-
 .contact-btn {
     background: #ef4444;
     border: none;
@@ -590,10 +563,6 @@ const getProducts = (categoryId) => {
     .mobile-menu-btn {
         display: block;
     }
-    .lang-btn {
-        padding: 0.4rem 0.75rem;
-        font-size: 0.85rem;
-    }
 }
 
 @media (max-width: 480px) {
@@ -610,12 +579,6 @@ const getProducts = (categoryId) => {
     .mobile-sidebar {
         width: 100%;
         max-width: 280px;
-    }
-    .lang-btn span:not(.globe-icon) {
-        display: none;
-    }
-    .lang-btn {
-        padding: 0.4rem 0.6rem;
     }
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
     <Navbar />
+    <PageHeader />
     <!-- <section class="page-hero">
         <div class="container">
             <div style="text-align: center;">
