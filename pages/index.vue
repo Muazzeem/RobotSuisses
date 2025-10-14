@@ -20,6 +20,7 @@
         <BlogSection />
       </div>
     </div>
+    <AIChatAssistant />
     <div style="background: #f5f5f5;">
       <div class="container">
         <IndustryCallout />
