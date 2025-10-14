@@ -21,7 +21,7 @@
       </div>
     </div>
     <AIChatAssistant />
-    <div style="background: #f5f5f5;">
+    <div>
       <div class="container">
         <IndustryCallout />
       </div>

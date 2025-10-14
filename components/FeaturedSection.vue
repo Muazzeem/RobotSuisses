@@ -12,8 +12,10 @@
     <div class="products-grid">
       <div v-for="product in products" :key="product.id" class="product-card">
         <div class="product-image">
+          <img :src="product.image" :alt="product.name" class="image" />
           <span class="product-badge">{{ product.category }}</span>
         </div>
+
         <div class="product-content">
           <h3 class="product-name">{{ product.name }}</h3>
           <div class="product-price">CHF {{ product.price.toLocaleString() }}</div>
@@ -101,6 +103,22 @@ const products = [
     pathClearance: 'Min width: 75 cm (29.53 in)',
     runtime: '3–6.5 h',
     image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800'
+  },
+  {
+    id: 4,
+    name: 'Clean Max Hospital',
+    price: 2499,
+    category: 'Medical',
+    batteryLife: '<150 minutes',
+    coverage: '200m',
+    noiseLevel: '<55dB',
+    dimensions: '840 × 600 × 490 mm',
+    airFiltration: 'H11 (optional H13)',
+    vacuumingWidth: '55 cm',
+    sweepingWidth: '(27.6 in, with side brush)',
+    pathClearance: 'Min width: 75 cm (29.53 in)',
+    runtime: '3–6.5 h',
+    image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800'
   }
 ]
 
@@ -145,10 +163,18 @@ const closeModal = () => {
 }
 
 .product-image {
-  height: 280px;
+  width: 100%;
+  height: 220px;
   background: linear-gradient(135deg, #1a1a1a 0%, #4b5563 100%);
   position: relative;
   overflow: hidden;
+}
+
+.product-image .image {
+  width: 100%;
+  height: 100%;
+  /* object-fit: cover; */
+  object-position: center;
 }
 
 .product-badge {
