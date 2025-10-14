@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <div>
     <div>
       <HeroSection />
@@ -6,20 +7,28 @@
     <div class="container">
       <WhyChooseSection />
     </div>
-    <div class="container">
-      <CategoriesSection />
+    <div style="background: #f9fafb;">
+      <div class="container">
+        <CategoriesSection />
+      </div>
     </div>
     <div class="container">
       <FeaturedSection />
     </div>
-    <div class="container">
-      <BlogSection />
+    <div style="background: #f9fafb;">
+      <div class="container">
+        <BlogSection />
+      </div>
     </div>
-    <div class="container">
-      <IndustryCallout />
+    <div style="background: #f5f5f5;">
+      <div class="container">
+        <IndustryCallout />
+      </div>
     </div>
-    <div class="container">
-      <FaqSection />
+    <div style="background-color: #fafafa;">
+      <div class="container">
+        <FaqSection />
+      </div>
     </div>
     <div class="container">
       <ContactSection />

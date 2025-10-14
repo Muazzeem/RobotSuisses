@@ -1,24 +1,17 @@
 <template>
   <section class="faq-section">
     <div class="container">
-      <div class="badge">Category</div>
-      <h2 class="section-title">Frequently Asked Questions</h2>
-      <p class="section-description">
-        Find answers to common questions about our robotics platform and services.
-      </p>
+      <div style="justify-content: center; text-align: center;">
+        <div class="category-tag">FAQs</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-description">
+          Find answers to common questions about our robotics platform and services.
+        </p>
+      </div>
 
       <div class="faq-list">
-        <div
-          v-for="(item, index) in faqItems"
-          :key="index"
-          class="faq-item"
-          :class="{ active: activeIndex === index }"
-        >
-          <button
-            class="faq-question"
-            @click="toggleFaq(index)"
-            :aria-expanded="activeIndex === index"
-          >
+        <div v-for="(item, index) in faqItems" :key="index" class="faq-item" :class="{ active: activeIndex === index }">
+          <button class="faq-question" @click="toggleFaq(index)" :aria-expanded="activeIndex === index">
             <span>{{ item.question }}</span>
             <span class="icon">{{ activeIndex === index ? '×' : '+' }}</span>
           </button>
@@ -74,41 +67,12 @@ const toggleFaq = (index) => {
 
 <style scoped>
 .faq-section {
-  padding: 80px 24px;
-  background-color: #fafafa;
+  padding: 6rem 0;
 }
 
 .container {
   max-width: 800px;
   margin: 0 auto;
-}
-
-.badge {
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: #ffe5e5;
-  color: #d32f2f;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 16px;
-}
-
-.section-title {
-  font-size: 48px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 16px;
-  line-height: 1.2;
-  text-align: center;
-}
-
-.section-description {
-  font-size: 18px;
-  color: #666;
-  margin-bottom: 48px;
-  line-height: 1.5;
-  text-align: center;
 }
 
 .faq-list {
@@ -187,16 +151,7 @@ const toggleFaq = (index) => {
 @media (max-width: 768px) {
   .faq-section {
     padding: 60px 20px;
-  }
-
-  .section-title {
-    font-size: 36px;
-  }
-
-  .section-description {
-    font-size: 16px;
-  }
-
+  
   .faq-question {
     padding: 20px 24px;
     font-size: 16px;
@@ -209,5 +164,6 @@ const toggleFaq = (index) => {
   .faq-answer p {
     font-size: 15px;
   }
+}
 }
 </style>

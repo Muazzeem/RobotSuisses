@@ -108,7 +108,7 @@ useHead({
 <style scoped>
 .blog-detail-page {
   min-height: 100vh;
-  background: white;
+  background: #FFFFFF0A;
 }
 
 .blog-article {
@@ -173,12 +173,13 @@ useHead({
 }
 
 .tag {
-  padding: 0.5rem 1rem;
-  background: #f5f5f5;
-  border-radius: 6px;
+  padding: 0.2rem 1rem;
+    /* background: #f5f5f5; */
+    border-radius: 20px;
   font-size: 0.875rem;
   color: #1a1a1a;
   font-weight: 500;
+  border: 1px solid #e5e5e5;
 }
 
 .share-section {

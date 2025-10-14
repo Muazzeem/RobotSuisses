@@ -4,7 +4,7 @@
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title">
-          Advanced Robotics<br />for Every Industry
+          Advanced Robotics for Every Industry
         </h1>
         <p class="hero-description">
           Discover cutting-edge robotic solutions that transform manufacturing,<br />
@@ -61,24 +61,16 @@
 .hero-content {
   max-width: 100%;
 }
-
-.hero-title {
-  font-size: 5rem;
-  font-weight: 600;
+.hero-title{
+  width: 60%;
   color: white;
-  line-height: 1.15;
-  margin-bottom: 1.75rem;
-  letter-spacing: -0.03em;
+  font-size: 96px;
+  line-height: 96px;
 }
-
-.hero-description {
-  font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.6;
-  margin-bottom: 0;
-  font-weight: 300;
+.hero-description{
+  margin-top: 2rem;
+  color: white;
 }
-
 .hero-stats {
   display: grid;
   grid-template-columns: repeat(4, auto);
@@ -101,10 +93,6 @@
 }
 
 @media (max-width: 1024px) {
-  .hero-title {
-    font-size: 3.5rem;
-  }
-
   .hero-stats {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
@@ -116,18 +104,29 @@
     padding-bottom: 3rem;
   }
 
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .hero-description {
-    font-size: 1rem;
-  }
-
   .hero-stats {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
+
+  .container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  .hero-title{
+    width: 80%;
+    font-size: 66px;
+    line-height: 75px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title{
+    width: 100%;
+    font-size: 50px;
+    line-height: 50px;
+    margin-bottom: 1rem;
+  } 
 }
 </style>

@@ -36,8 +36,7 @@ defineProps({
 .blog-card {
   display: flex;
   flex-direction: column;
-  background: white;
-  border-radius: 12px;
+  background: transparent;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
@@ -45,14 +44,14 @@ defineProps({
 
 .blog-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .blog-image {
   width: 100%;
-  height: 240px;
+  height: 200px;
   overflow: hidden;
   background: #f5f5f5;
+  border-radius: 24px;
 }
 
 .blog-image img {
@@ -67,7 +66,7 @@ defineProps({
 }
 
 .blog-content {
-  padding: 1.5rem;
+  padding: 1.5rem 0rem;
 }
 
 .blog-date {

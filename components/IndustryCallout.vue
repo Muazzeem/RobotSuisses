@@ -1,21 +1,19 @@
 <template>
   <section class="industry-callout">
-    <div class="container">
-      <div class="callout-card">
-        <div class="overlay"></div>
-        <div class="content">
-          <h2 class="title">Don't See Your Industry?</h2>
-          <p class="description">
-            We work with businesses across all sectors. Let's discuss<br />
-            your specific automation needs.
-          </p>
-          <a href="#contact" class="cta-button">
-            Schedule Industry Consultation
-            <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
+    <div class="callout-card">
+      <div class="overlay"></div>
+      <div class="content">
+        <h2 class="title">Don't See Your Industry?</h2>
+        <p class="description">
+          We work with businesses across all sectors. Let's discuss<br />
+          your specific automation needs.
+        </p>
+        <a href="#contact" class="cta-button">
+          Schedule Industry Consultation
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
     </div>
   </section>
@@ -24,13 +22,6 @@
 <style scoped>
 .industry-callout {
   padding: 6rem 0;
-  background: #f5f5f5;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
 }
 
 .callout-card {

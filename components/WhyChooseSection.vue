@@ -2,6 +2,7 @@
   <section class="why-choose">
     <div class="container">
       <div class="section-header">
+        <div class="category-tag">Why Choose</div>
         <h2 class="section-title">Why Choose RobotSuisse?</h2>
         <p class="section-description">
           Switzerland's most trusted robotics platform, designed for<br />
@@ -51,7 +52,8 @@
         <div class="feature-card">
           <div class="icon-wrapper">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
               <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
               <line x1="12" y1="22.08" x2="12" y2="12" />
             </svg>
@@ -75,24 +77,12 @@
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
 }
 
 .section-header {
   text-align: center;
   margin-bottom: 4rem;
 }
-
-.category-tag {
-  display: inline-block;
-  color: #ef4444;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-}
-
 .section-title {
   font-size: 2.75rem;
   font-weight: 700;

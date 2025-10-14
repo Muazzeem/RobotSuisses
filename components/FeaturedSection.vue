@@ -1,42 +1,41 @@
 <template>
   <section class="featured">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Featured Robots</h2>
-        <p class="section-description">
-          Discover our most popular robotic solutions, engineered for<br />
-          excellence and performance
-        </p>
-      </div>
+    <div class="section-header">
+      <div class="category-tag">Robots</div>
+      <h2 class="section-title">Featured Robots</h2>
+      <p class="section-description">
+        Discover our most popular robotic solutions, engineered for<br />
+        excellence and performance
+      </p>
+    </div>
 
-      <div class="products-grid">
-        <div v-for="product in products" :key="product.id" class="product-card">
-          <div class="product-image">
-            <span class="product-badge">{{ product.category }}</span>
+    <div class="products-grid">
+      <div v-for="product in products" :key="product.id" class="product-card">
+        <div class="product-image">
+          <span class="product-badge">{{ product.category }}</span>
+        </div>
+        <div class="product-content">
+          <h3 class="product-name">{{ product.name }}</h3>
+          <div class="product-price">CHF {{ product.price.toLocaleString() }}</div>
+
+          <div class="product-specs">
+            <div class="spec-item">
+              <span class="spec-label">Battery Life:</span>
+              <span class="spec-value">{{ product.batteryLife }}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Coverage:</span>
+              <span class="spec-value">{{ product.coverage }}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Noise Level:</span>
+              <span class="spec-value">{{ product.noiseLevel }}</span>
+            </div>
           </div>
-          <div class="product-content">
-            <h3 class="product-name">{{ product.name }}</h3>
-            <div class="product-price">CHF {{ product.price.toLocaleString() }}</div>
 
-            <div class="product-specs">
-              <div class="spec-item">
-                <span class="spec-label">Battery Life:</span>
-                <span class="spec-value">{{ product.batteryLife }}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">Coverage:</span>
-                <span class="spec-value">{{ product.coverage }}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">Noise Level:</span>
-                <span class="spec-value">{{ product.noiseLevel }}</span>
-              </div>
-            </div>
-
-            <div class="product-actions">
-              <button class="btn-details">Details</button>
-              <button class="btn-quote">Quote</button>
-            </div>
+          <div class="product-actions">
+            <button class="btn-details">Details</button>
+            <button class="btn-quote">Quote</button>
           </div>
         </div>
       </div>
@@ -85,39 +84,9 @@ const products = [
   background: white;
 }
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
 .section-header {
   text-align: center;
   margin-bottom: 4rem;
-}
-
-.category-tag {
-  display: inline-block;
-  color: #ef4444;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-}
-
-.section-title {
-  font-size: 2.75rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
-}
-
-.section-description {
-  font-size: 1.125rem;
-  color: #6b7280;
-  line-height: 1.7;
 }
 
 .products-grid {
@@ -128,15 +97,15 @@ const products = [
 
 .product-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  border: 1px solid #1018281A;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
 .product-image {
@@ -222,7 +191,7 @@ const products = [
 
 .btn-details {
   background: white;
-  border: 2px solid #1a1a1a;
+  border: 1px solid #1018281A;
   color: #1a1a1a;
 }
 
@@ -242,13 +211,9 @@ const products = [
 }
 
 @media (max-width: 1024px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .section-title {
-    font-size: 2.25rem;
-  }
+      .products-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
 }
 
 @media (max-width: 768px) {
@@ -258,10 +223,6 @@ const products = [
 
   .products-grid {
     grid-template-columns: 1fr;
-  }
-
-  .section-title {
-    font-size: 2rem;
   }
 
   .section-description br {
