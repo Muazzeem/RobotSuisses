@@ -1,27 +1,21 @@
 <template>
     <Navbar />
     <PageHeader />
-    <!-- <section class="page-hero">
-        <div class="container">
-            <div style="text-align: center;">
-                <h1 class="hero-title">
-                    {{ route.fullPath.split('/')[1] }}
-                </h1>
-            </div>
-        </div>
-    </section>
-    <section>
-        <div class="container">
-            <div class="content">
-                
-            </div>
-        </div>
-    </section> -->
     <div v-if="route.fullPath.split('/')[1] === 'blog'">
         <BlogList />
     </div>
     <div v-if="route.fullPath.split('/')[1] === 'contact-us'">
         <Contact />
+    </div>
+    <div v-if="route.fullPath.split('/')[1] === 'about'">
+        <MissionVision />
+        <WhatDefinesUs />
+        <Team/>
+        <div style="color: white;">
+            <div class="container">
+                <IndustryCallout />
+            </div>
+        </div>
     </div>
 </template>
 

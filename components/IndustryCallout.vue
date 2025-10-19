@@ -127,8 +127,8 @@
   }
 
   .cta-button {
-    padding: 0.875rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.875rem 1rem;
+    font-size: .9rem;
   }
 }
 </style>

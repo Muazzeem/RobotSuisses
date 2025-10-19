@@ -68,7 +68,7 @@
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 16px;
-  padding: 2.5rem;
+  padding: 2rem;
   transition: all 0.3s ease;
 }
 
@@ -151,7 +151,7 @@
   }
 
   .card {
-    padding: 2rem;
+    padding: 1rem;
   }
 
   .card-title {
@@ -159,7 +159,7 @@
   }
 
   .quote-card {
-    padding: 2rem;
+    padding: 1rem;
   }
 
   .quote-mark {

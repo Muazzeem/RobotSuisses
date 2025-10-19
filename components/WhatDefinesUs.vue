@@ -160,6 +160,9 @@
 
 .feature-card {
   text-align: left;
+  padding: 2rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
 }
 
 .feature-icon {
@@ -255,12 +258,14 @@
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
     gap: 2rem;
   }
 
   .stat-number {
     font-size: 2.5rem;
+  }
+  .feature-card {
+    padding: 1rem;
   }
 }
 </style>

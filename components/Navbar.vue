@@ -20,8 +20,9 @@
     
         <div class="nav-actions">
             <LanguagesButton textColor="black" />
-            <button class="contact-btn desktop-contact">Contact Us</button>
-            
+            <NuxtLink to="/contact-us">
+                <button class="contact-btn desktop-contact">Contact Us</button>
+            </NuxtLink>
             <button class="mobile-menu-btn" @click="toggleMenu" aria-label="Toggle menu">
             <span class="hamburger" :class="{ active: isMenuOpen }"></span>
           </button>

@@ -2,9 +2,9 @@
   <section class="featured">
       <!-- Header -->
       <div class="header">
-        <span class="industries-badge">Industries</span>
-        <h1 class="main-title">Robot Use Cases & Industries</h1>
-        <p class="subtitle">
+        <span class="category-tag">Industries</span>
+        <h1 class="section-title">Robot Use Cases & Industries</h1>
+        <p class="section-description">
           Discover how robots are transforming industries across Switzerland with innovative automation solutions.
         </p>
       </div>
@@ -178,43 +178,10 @@ const HomeIcon = {
 </script>
 
 <style scoped>
-.featured {
-  padding: 6rem 0;
-  background: white;
-}
-/* Header Styles */
 .header {
   text-align: center;
   margin-bottom: 3rem;
 }
-
-.industries-badge {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: #fef2f2;
-  color: #ef4444;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-}
-
-.main-title {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #111827;
-  margin-bottom: 1rem;
-  line-height: 1.2;
-}
-
-.subtitle {
-  font-size: 1.125rem;
-  color: #6b7280;
-  max-width: 42rem;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
 /* Tabs Styles */
 .tabs {
   display: flex;
@@ -369,10 +336,6 @@ const HomeIcon = {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  .main-title {
-    font-size: 2rem;
-  }
-
   .content-title {
     font-size: 1.875rem;
   }
