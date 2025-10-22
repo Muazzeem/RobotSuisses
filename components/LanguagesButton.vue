@@ -1,7 +1,6 @@
 <template>
     <div class="language-selector" ref="dropdownRef">
         <button class="lang-btn" @click="toggleDropdown">
-            <!-- <span class="globe-icon">🌐</span>  -->
             <div class="lang-name" :style="{ color: textColor }">
                 {{ selectedLanguage.code }}
             </div>
@@ -33,58 +32,61 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
 const route = useRoute()
+const router = useRouter()
+const { locale } = useI18n()
 
 const isOpen = ref(false)
 const dropdownRef = ref(null)
 
 const props = defineProps({
-    textColor: {
-        type: String,
-        default: 'white'
-    }
+  textColor: {
+    type: String,
+    default: 'white'
+  }
 })
+
 const languages = ref([
-    { code: 'EN', name: 'English', flag: '🇺🇸' },
-    { code: 'ES', name: 'Español', flag: '🇪🇸' },
-    { code: 'FR', name: 'Français', flag: '🇫🇷' },
-    { code: 'DE', name: 'Deutsch', flag: '🇩🇪' }
+  { code: "EN", name: "English", flag: "🇺🇸" },
+  { code: "DECH", name: "Deutsch (CH)", flag: "🇨🇭" },
+  { code: "FRCH", name: "Français (CH)", flag: "🇨🇭" },
+  { code: "ITCH", name: "Italiano (CH)", flag: "🇨🇭" },
 ])
 
-const selectedLanguage = ref(
-    languages.value.find(lang => lang.code === route.query.lang?.toUpperCase()) || languages.value[0]
-)
+const findLang = (code) =>
+  languages.value.find(lang => lang.code.toUpperCase() === code?.toUpperCase())
+
+const queryLang = route.query.lang
+const selectedLanguage = ref(findLang(queryLang) || languages.value[0])
+
+locale.value = selectedLanguage.value.code.toLowerCase()
 
 const toggleDropdown = () => {
-    isOpen.value = !isOpen.value
+  isOpen.value = !isOpen.value
 }
 
 const selectLanguage = (lang) => {
-    selectedLanguage.value = lang
-    isOpen.value = false
-    sessionStorage.setItem('lang', lang.code)
+  selectedLanguage.value = lang
+  isOpen.value = false
+  locale.value = lang.code.toLowerCase()
+  router.replace({ query: { ...route.query, lang: lang.code.toLowerCase() } })
 }
 
 const handleClickOutside = (event) => {
-    if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
-        isOpen.value = false
-    }
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    isOpen.value = false
+  }
 }
 
 onMounted(() => {
-    document.addEventListener('click', handleClickOutside)
+  document.addEventListener('click', handleClickOutside)
 })
 
 onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside)
-})
-
-onMounted(() => {
-    const lang = sessionStorage.getItem('lang')
-    if (lang) {
-        selectLanguage(languages.value.find(l => l.code === lang))
-    }
+  document.removeEventListener('click', handleClickOutside)
 })
 </script>
 

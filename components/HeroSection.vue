@@ -3,31 +3,34 @@
     <div class="hero-overlay"></div>
     <div class="container">
       <div class="hero-content">
+        <!-- <p style="color: white;">{{ result }}</p> -->
         <h1 class="hero-title">
-          Advanced Robotics for Every Industry
+          {{ localized?.value?.title }}
         </h1>
         <p class="hero-description">
-          Discover cutting-edge robotic solutions that transform manufacturing,<br />
-          healthcare, and service industries with swiss precision and innovation.
+          {{ data.subtitle_en }}
         </p>
         <div class="hero-stats">
-          <div class="stat">
-            <div class="stat-value">50,000 driverless miles</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">3.3 million+ commercial miles</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">Nearly 100% on-time delivery</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">as of Sept 9, 2025</div>
+          <div class="stat" v-for="(item, index) in data.sub_items" :key="index">
+            <div class="stat-value">{{ item.title_en }}</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
+
+<script setup>
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+})
+
+const result = getLanguageSpecificData(props?.data?.value, 'it_ch');
+console.log("result", result)
+</script>
 
 <style scoped>
 .hero {

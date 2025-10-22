@@ -2,15 +2,6 @@
 <template>
   <section class="categories">
     <div class="container">
-      <div class="section-header">
-        <div class="category-tag">Category</div>
-        <h2 class="section-title">Our Robot Categories</h2>
-        <p class="section-description">
-          From home assistance to complex industrial automation, we<br />
-          offer robotic solutions for every need
-        </p>
-      </div>
-
       <div class="categories-grid">
         <div class="category-card home-robot">
           <div class="category-content">
@@ -63,11 +54,7 @@
 <style scoped>
 .categories {
   padding: 6rem 0;
-}
 
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
 }
 
 .category-tag {
@@ -186,10 +173,6 @@
 
   .categories-grid {
     grid-template-columns: 1fr;
-  }
-
-  .section-title {
-    font-size: 2rem;
   }
 }
 </style>

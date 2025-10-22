@@ -14,14 +14,21 @@
 
           <header class="article-header">
             <div class="header-content">
-              <time class="article-date">26 Feb 2025</time>
+              <time class="article-date">
+                {{ dayjs(data.currentPage?.last_published_at).format('DD MMM, YYYY') }}
+              </time>
 
-              <h1 class="article-title">Small Business Guide: Getting Started with Robotic Automation</h1>
-
+              <h1 class="article-title">
+                {{ data.currentPage.title }}
+              </h1>
               <div class="article-tags">
-                <span class="tag">Design</span>
-                <span class="tag">NFTs</span>
-                <span class="tag">Crypto</span>
+                <span
+                  v-for="(tag, index) in parsedTags"
+                  :key="index"
+                  class="tag"
+                >
+                  {{ tag }}
+                </span>
               </div>
             </div>
 
@@ -52,42 +59,21 @@
               </div>
             </div>
           </header>
-
-          <div class="article-content">
-            <figure class="article-image">
-              <img src="https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Robotic automation" />
-            </figure>
-
-            <div class="content-text">
-              <p>Rumors swirled on X earlier this week, sparking a frenzy with web3 community members dissecting every clue. Their verdict? Doodles, the digital art and entertainment brand built upon Burnt Toast's playful designs and music legend Pharrell Williams' creative direction, was teaming up with McDonald's. By November 14, their suspicions proved correct. A Doodles rep confirmed the collaboration to OpenSea, and the announcement followed soon after.</p>
-
-              <p>Starting November 18, customers at participating McDonald's locations across the U.S. can purchase a McCafe coffee in a Doodles-themed holiday cup to unlock exclusive digital collectibles. Through the McDonald's app, customers can access fun digital character accessories and wearables redeemable on the Doodles Stoodio platform.</p>
-
-              <figure class="article-image">
-                <img src="https://images.pexels.com/photos/4481258/pexels-photo-4481258.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Warehouse automation" />
-              </figure>
-
-              <p>Blockchain gaming venture studio Animoca Brands has secured $10 million in funding to accelerate Mocaverse, its open metaverse platform. The funding round included contributions from investors such as CMCC Global and Kingsway Capital, with the goal of expanding features like the Moca ID identity system and building more interoperability infrastructure.</p>
-
-              <p>Animoca plans to use Mocaverse to connect its ecosystem of over 450 web3 brands to prioritize seamless transfers between digital environments and a continued focus on community-driven online experiences.</p>
-
-              <h2>Key Benefits of Robotic Automation</h2>
-
-              <p>The implementation of robotic automation in small businesses offers numerous advantages that can transform operations and drive growth. From increased efficiency to cost savings, the benefits are substantial and measurable.</p>
-
-              <ul>
-                <li>Improved productivity and operational efficiency</li>
-                <li>Reduced operational costs over time</li>
-                <li>Enhanced quality control and consistency</li>
-                <li>Better workplace safety for employees</li>
-                <li>Scalability to meet growing business demands</li>
-              </ul>
-
-              <h2>Getting Started with Your First Robot</h2>
-
-              <p>Taking the first step towards robotic automation doesn't have to be overwhelming. Start by identifying repetitive tasks in your workflow that could benefit from automation. Consider renting before purchasing to test different solutions and find the right fit for your business needs.</p>
-
-              <p>Work with experienced robotics consultants who understand the Swiss market and can guide you through the implementation process. Remember, successful automation is about finding the right balance between technology and human expertise.</p>
+          <div v-if="pending">
+          </div>
+          <div v-else-if="error">Failed to load: {{ error?.message || error }}</div>
+          <div v-else>
+            <div class="article-content">
+              <div v-if="data?.currentPage?.body">
+                <div v-for="(item, idx) in data?.currentPage?.body" :key="'p_idx_' + idx">
+                  <div>
+                    <Richtext v-if="item?.type=='richtext'" :data="item?.value" />
+                  </div>
+                  <div>
+                    <BlogBanner v-if="item?.type=='banner_image'" :data="item?.value" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </article>
@@ -97,6 +83,45 @@
 </template>
 
 <script setup>
+import dayjs from 'dayjs'
+
+import { useRoute } from "#vue-router";
+import { computed } from 'vue';
+
+const nuxtApp = useNuxtApp();
+const commonStore = useCommonPageStore();
+const route = useRoute();
+
+const config = useRuntimeConfig();
+const HOST = computed(() => {
+	return config.public.HOST;
+});
+const { data, error } = await useAsyncData("pageData2", async () => {
+	let currentPage = null;
+
+	await nuxtApp.runWithContext(async () => {
+		await commonStore
+			.fetchPage({ html_path: route.path })
+			.then((d) => {
+				currentPage = d;
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	});
+
+	return {
+		currentPage,
+	};
+});
+
+const parsedTags = computed(() => {
+  return data?.value?.currentPage?.tags
+    ? data?.value?.currentPage?.tags.split(',').map(tag => tag.trim())
+    : []
+})
+
+
 useHead({
   title: 'Small Business Guide: Getting Started with Robotic Automation - RobotSuisse',
   meta: [
@@ -148,7 +173,7 @@ useHead({
 
 .header-content {
   flex: 1;
-  max-width: 700px;
+  max-width: 900px;
 }
 
 .article-date {
@@ -219,7 +244,6 @@ useHead({
 }
 
 .article-content {
-  max-width: 800px;
   margin: 0 auto;
 }
 

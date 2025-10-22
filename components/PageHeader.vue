@@ -1,43 +1,43 @@
 <template>
     <section class="page-hero">
         <div class="hero-background"></div>
-        <div class="hero-overlay"></div>
+        <div class="hero-overlay"
+            :style="{
+                background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${imageURL}) center/cover`
+            }"
+        ></div>
         <div class="container">
-            <div v-if="updatedDate">
+            <!-- <div>
                 <div class="update-badge">
-                    Updated {{ formattedDate }}
+                   {{ localizedContent?.tag }}
                 </div>
             </div>
             <h1 class="hero-title">
-                {{ route.fullPath.split('/')[1] }}
+                {{ localizedContent?.hero_title }}
             </h1>
             <p class="hero-subtext">
-                {{ subtitle }}
-            </p>
+                {{ localizedContent?.hero_description }}
+            </p> -->
         </div>
     </section>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-
+import { computed, watch } from 'vue'
 const props = defineProps({
-    title: {
-        type: String,
-        default: 'Our commitment to protecting your privacy'
-    },
-    updatedDate: {
-        type: String,
-        required: false,
-    },
-    subtitle: {
-        type: String,
-        default: "We're committed to protecting your privacy and ensuring your data is secure."
+    pageData: {
+        type: Object,
+        required: true
     }
 })
-const route = useRoute()
 
-const formattedDate = computed(() => props.updatedDate)
+const config = useRuntimeConfig()
+const HOST = computed(() => {
+	return config.public.HOST
+})
+const imageURL = computed(() => {
+	return HOST.value + props.pageData?.hero_image?.meta?.download_url
+})
 </script>
 
 <style scoped>
@@ -70,8 +70,6 @@ const formattedDate = computed(() => props.updatedDate)
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('https://ai.motion.com/wp-content/uploads/2023/09/industrial-robots.webp') center/cover;
     z-index: 1;
 }
 
@@ -85,7 +83,7 @@ const formattedDate = computed(() => props.updatedDate)
 
 .update-badge {
     display: inline-block;
-    padding: 0.625rem 1.5rem;
+    padding: 0.500rem 1.5rem;
     background: white;
     border: 1px solid #e5e7eb;
     border-radius: 50px;
@@ -109,6 +107,8 @@ const formattedDate = computed(() => props.updatedDate)
 }
 
 .hero-subtext {
+    max-width: 70%;
+    margin: 0 auto;
     margin-top: 1rem;
     color: white;
     font-size: 1.1rem;

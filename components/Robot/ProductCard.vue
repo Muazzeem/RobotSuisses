@@ -28,7 +28,7 @@
         <button class="btn-details" @click="$emit('open-modal', product)">
           Details
         </button>
-        <button class="btn-quote">Quote</button>
+        <button class="btn-quote bg-red">Quote</button>
       </div>
     </div>
   </div>
@@ -159,12 +159,10 @@ defineEmits(['open-modal'])
 }
 
 .btn-quote {
-  background: #ef4444;
   color: white;
 }
 
 .btn-quote:hover {
-  background: #dc2626;
   transform: translateY(-1px);
 }
 </style>

@@ -54,7 +54,7 @@
             </div>
           </div>
 
-          <button class="btn-quote-modal">Quote</button>
+          <button class="btn-quote-modal bg-red">Quote</button>
         </div>
       </div>
     </div>
@@ -204,18 +204,15 @@ onUnmounted(() => {
 .btn-quote-modal {
   width: 100%;
   padding: 1rem;
-  background: #ef4444;
   color: white;
   border: none;
   border-radius: 12px;
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .btn-quote-modal:hover {
-  background: #dc2626;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }

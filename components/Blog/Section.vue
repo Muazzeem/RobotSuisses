@@ -1,55 +1,61 @@
 <template>
   <section class="blog">
-    <div class="section-header">
-      <div class="category-tag">Blog</div>
-      <h2 class="section-title">See Our Latest Blog and News</h2>
-      <p class="section-description">
-        Find answers to common questions about our robotics<br />
-        platform and services.
-      </p>
-    </div>
-
     <div class="blog-grid">
-      <NuxtLink v-for="post in blogPosts" :key="post.id" :to="`/blog/${post.slug}`" class="blog-link">
-        <BlogCard :image="post.image" :date="post.date" :title="post.title" :excerpt="post.excerpt" />
+      <NuxtLink
+        v-for="post in blogPosts"
+        :key="post.id"
+        :to="`/blog/${post.fetch_parent.slug}/${post.meta.slug}`"
+        class="blog-link"
+      >
+        <BlogCard
+          :image="HOST + post?.thumbnail?.original?.src"
+          :date="formatDate(post.last_published_at)"
+          :title="post?.title"
+          :excerpt="post?.short_description"
+        />
       </NuxtLink>
     </div>
   </section>
 </template>
 
 <script setup>
-const blogPosts = [
-  {
-    id: 1,
-    date: '26 Feb 2025',
-    title: 'Small Business Guide: Getting Started with Robotic Automation',
-    excerpt: 'A comprehensive guide for Swiss SMEs looking to implement their first robotic solutions without breaking the bank.',
-    image: 'https://images.pexels.com/photos/8566472/pexels-photo-8566472.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 2,
-    date: '26 Feb 2025',
-    title: 'Logistics Revolution: How Warehouse Robots Are Changing...',
-    excerpt: 'Examining the impact of automated logistics solutions on Swiss supply chain efficiency and competitiveness.',
-    image: 'https://images.pexels.com/photos/6169668/pexels-photo-6169668.jpeg?auto=compress&cs=tinysrgb&w=800'
-  },
-  {
-    id: 3,
-    date: '26 Feb 2025',
-    title: 'The Economics of Robot Rentals vs. Purchase: A Swiss Perspective',
-    excerpt: 'Financial analysis comparing robot rental and purchase options for Swiss businesses, including tax implications and cash flow.',
-    image: 'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800'
+import { ref } from 'vue'
+const config = useRuntimeConfig()
+const HOST = config.public.HOST
+
+const blogPosts = ref([])
+
+const API_URL =
+  'http://localhost:8000/api/v2/pages/?type=home.BlogDetailPage&fields=title,title_ar,thumbnail,author,short_description,short_description_ar,tags,fetch_parent,last_published_at,slug'
+
+// Format date for display
+function formatDate(dateStr) {
+  if (!dateStr) return ''
+  const date = new Date(dateStr)
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
+// Fetch blogs
+async function fetchBlogs() {
+  try {
+    const { data } = await useFetch(API_URL, { key: 'blogs' })
+    blogPosts.value = data.value?.items || []
+  } catch (error) {
+    console.error('Error fetching blogs:', error)
   }
-]
+}
+
+// Run fetch on mount
+await fetchBlogs()
 </script>
 
 <style scoped>
 .blog {
-  padding: 6rem 0;
-}
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
+  padding: 2rem 0;
 }
 .blog-grid {
   display: grid;

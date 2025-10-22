@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="logo">
-      <div class="logo-icon"></div>
+      <div class="logo-icon bg-red"></div>
       <span class="logo-text">RobotSuisse</span>
     </div>
 
@@ -9,7 +9,6 @@
     <nav class="nav desktop-nav">
       <NuxtLink to="/" class="nav-link">Home</NuxtLink>
       <NuxtLink to="/about" class="nav-link">About</NuxtLink>
-      <NuxtLink to="/industries" class="nav-link">Industries</NuxtLink>
       <ProductMenu menuColor="white" />
       <NuxtLink to="/blog" class="nav-link" style="margin-top: 2px;">Blog</NuxtLink>
     </nav>
@@ -17,7 +16,7 @@
     <div class="header-actions">
       <LanguagesButton />
       <NuxtLink to="/contact-us">
-        <button class="contact-btn desktop-contact">Contact Us</button>
+        <button class="contact-btn desktop-contact bg-red">Contact Us</button>
       </NuxtLink>
 
       <!-- Mobile Menu Button -->
@@ -44,7 +43,6 @@
         <nav class="sidebar-nav">
           <NuxtLink to="/" class="sidebar-link" @click="toggleSidebar">Home</NuxtLink>
           <NuxtLink to="/about" class="sidebar-link" @click="toggleSidebar">About</NuxtLink>
-          <NuxtLink to="/industries" class="sidebar-link" @click="toggleSidebar">Industries</NuxtLink>
           <NuxtLink to="/products" class="sidebar-link" @click="toggleSidebar">Products</NuxtLink>
           <NuxtLink to="/blog" class="sidebar-link" @click="toggleSidebar">Blog</NuxtLink>
         </nav>
@@ -101,7 +99,6 @@ onBeforeRouteUpdate(() => {
 .logo-icon {
   width: 32px;
   height: 32px;
-  background: #ef4444;
   border-radius: 6px;
   position: relative;
   flex-shrink: 0;
@@ -172,7 +169,6 @@ onBeforeRouteUpdate(() => {
 }
 
 .contact-btn {
-  background: #ef4444;
   border: none;
   color: white;
   padding: 0.625rem 1.5rem;

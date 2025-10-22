@@ -1,13 +1,6 @@
 <template>
   <div class="team-section">
     <div class="container">
-      <div class="header">
-        <h1 class="title">Meet the Experts Behind the Magic</h1>
-        <p class="subtitle">
-          Switzerland's most trusted robotics platform, designed for modern businesses and tech-forward homes.
-        </p>
-      </div>
-
       <div class="carousel-wrapper">
         <div class="carousel-container">
           <div 
@@ -26,24 +19,27 @@
                   class="team-card"
                 >
                   <div class="card-image">
-                    <img :src="member.image" :alt="member.name" />
+                    <img :src="getFullImageUrl(member.image.original.src)" :alt="member.title_en" />
                   </div>
                   <div class="card-content">
-                    <h3 class="member-name">{{ member.name }}</h3>
-                    <p class="member-position">{{ member.position }}</p>
+                    <div v-if="member?.description_en">
+                    <div class="card-description" v-html="member?.description_en">
+                    </div>
+                  </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="navigation">
           <button 
             @click="prevSlide" 
             class="nav-button"
             :disabled="currentSlide === 0"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="24" height="24" viewBox="0 0 24 24">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
@@ -63,7 +59,7 @@
             class="nav-button"
             :disabled="currentSlide === totalSlides - 1"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="24" height="24" viewBox="0 0 24 24">
               <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
           </button>
@@ -73,63 +69,48 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'TeamCarousel',
-  data() {
-    return {
-      currentSlide: 0,
-      itemsPerPage: 4,
-      teamMembers: [
-        {
-          name: 'Zain Rhiel Madsen',
-          position: 'CEO at RobotSuisse',
-          image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop'
-        },
-        {
-          name: 'Leslie Alexander',
-          position: 'CEO at RobotSuisse',
-          image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop'
-        },
-        {
-          name: 'Robert Fox',
-          position: 'CEO at RobotSuisse',
-          image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop'
-        },
-        {
-          name: 'Brooklyn Simmons',
-          position: 'CEO at RobotSuisse',
-          image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=500&fit=crop'
-        }
-      ]
-    };
-  },
-  computed: {
-    totalSlides() {
-      return Math.ceil(this.teamMembers.length / this.itemsPerPage);
-    }
-  },
-  methods: {
-    nextSlide() {
-      if (this.currentSlide < this.totalSlides - 1) {
-        this.currentSlide++;
-      }
-    },
-    prevSlide() {
-      if (this.currentSlide > 0) {
-        this.currentSlide--;
-      }
-    },
-    goToSlide(index) {
-      this.currentSlide = index;
-    },
-    getSlideMembers(slideIndex) {
-      const start = slideIndex * this.itemsPerPage;
-      const end = start + this.itemsPerPage;
-      return this.teamMembers.slice(start, end);
-    }
+<script setup>
+import { ref, computed } from 'vue'
+import { useRuntimeConfig } from "#app";
+
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
   }
-};
+})
+
+const config = useRuntimeConfig()
+const HOST = config.public.HOST
+
+// Carousel setup
+const currentSlide = ref(0)
+const membersPerSlide = 3
+const members = computed(() => props.data || [])
+const totalSlides = computed(() => Math.ceil(members.value.length / membersPerSlide))
+
+const getSlideMembers = (slideIndex) => {
+  const start = slideIndex * membersPerSlide
+  return members.value.slice(start, start + membersPerSlide)
+}
+
+// Image URL
+const getFullImageUrl = (url) => {
+  return `${HOST}${url}`
+}
+
+// Carousel controls
+const nextSlide = () => {
+  if (currentSlide.value < totalSlides.value - 1) currentSlide.value++
+}
+
+const prevSlide = () => {
+  if (currentSlide.value > 0) currentSlide.value--
+}
+
+const goToSlide = (index) => {
+  currentSlide.value = index
+}
 </script>
 
 <style scoped>
@@ -145,6 +126,7 @@ export default {
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .header {
@@ -173,7 +155,6 @@ export default {
 
 .carousel-container {
   overflow: hidden;
-  padding: 0 1rem;
 }
 
 .carousel-track {
@@ -193,10 +174,11 @@ export default {
 }
 
 .team-card {
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
+  background-color: #f3f4f6;
 }
 
 .team-card:hover {
@@ -204,10 +186,11 @@ export default {
 }
 
 .card-image {
-  width: 100%;
+  width: 300px;
   height: 300px;
   overflow: hidden;
-  background-color: #e5e7eb;
+  background-color: #f3f4f6;
+  border-radius: 1.5rem;
 }
 
 .card-image img {
@@ -224,18 +207,21 @@ export default {
 .card-content {
   padding: 1.5rem;
   text-align: center;
+  background-color: transparent;
 }
 
-.member-name {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 0.5rem;
+h2, h3, h4, h5, h6 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: #1a1a1a !important;
+  margin-bottom: 1rem !important;
 }
 
-.member-position {
-  color: #6b7280;
-  font-size: 0.875rem;
+p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #050505;
+  white-space: pre-line;
 }
 
 .navigation {
@@ -291,7 +277,7 @@ export default {
   border-radius: 4px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .team-grid {
     grid-template-columns: repeat(2, 1fr);
   }

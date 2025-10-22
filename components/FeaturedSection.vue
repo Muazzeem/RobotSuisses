@@ -1,14 +1,5 @@
 <template>
   <section class="featured">
-    <div class="section-header">
-      <div class="category-tag">Robots</div>
-      <h2 class="section-title">Featured Robots</h2>
-      <p class="section-description">
-        Discover our most popular robotic solutions, engineered for<br />
-        excellence and performance
-      </p>
-    </div>
-
     <div class="products-grid">
       <RobotProductCard 
         v-for="product in products" 
@@ -113,11 +104,6 @@ const closeModal = () => {
   background: white;
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -137,10 +123,6 @@ const closeModal = () => {
 
   .products-grid {
     grid-template-columns: 1fr;
-  }
-
-  .section-description br {
-    display: none;
   }
 }
 </style>

@@ -1,29 +1,186 @@
 <template>
     <Navbar />
-    <PageHeader />
-    <div v-if="route.fullPath.split('/')[1] === 'blog'">
-        <BlogList />
-    </div>
-    <div v-if="route.fullPath.split('/')[1] === 'contact-us'">
-        <Contact />
-    </div>
-    <div v-if="route.fullPath.split('/')[1] === 'about'">
-        <MissionVision />
-        <WhatDefinesUs />
-        <Team/>
-        <div style="color: white;">
-            <div class="container">
-                <IndustryCallout />
+    <PageHeader :pageData="data.currentPage" />
+    <div v-if="data?.currentPage?.body">
+        <div v-for="(item, idx) in data?.currentPage?.body" :key="'p_idx_' + idx">
+            <div>
+                <TitleSection v-if="item?.type == 'title'" :data="item?.value" />
             </div>
+            <div style="color: white;">
+                <div class="container">
+                    <IndustryCallout v-if="item?.type == 'cta'" :data="item?.value" />
+                </div>
+            </div>
+            <div>
+            	<Team v-if="item?.type == 'team_cards'" :data="item?.value" />
+            </div>
+            <div>
+                <WhatDefinesUs v-if="item?.type=='banner_video'" :data="item?.value" />
+            </div>
+			<div>
+				<Cards v-if="item?.type=='cards'" :data="item?.value" />
+			</div>
+			<div>
+				<Spacer v-if="item?.type=='spacer'" :data="item?.value" />
+			</div>
+			<div>
+				<QuoteCard v-if="item?.type=='quote'" :data="item?.value" />
+			</div>
+			<div>
+				<StatsCard v-if="item?.type=='stats'" :data="item?.value" />
+			</div>
+			<div>
+				<AboutHowItWorks v-if="item?.type=='working_process'" :data="item?.value" />
+			</div>
+			<div>
+				<Richtext v-if="item?.type=='richtext'" :data="item?.value" />
+			</div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
-const route = useRoute()
+import { useRoute } from "#vue-router";
+import { computed } from 'vue';
+
+const nuxtApp = useNuxtApp();
+const commonStore = useCommonPageStore();
+const requestURL = useRequestURL();
+const route = useRoute();
+
+const config = useRuntimeConfig();
+const HOST = computed(() => {
+	return config.public.HOST;
+});
+const { data, error } = await useAsyncData("pageData2", async () => {
+	let currentPage = null;
+
+	await nuxtApp.runWithContext(async () => {
+		await commonStore
+			.fetchPage({ html_path: route.path })
+			.then((d) => {
+				currentPage = d;
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	});
+
+	return {
+		currentPage,
+	};
+});
+
+
+const getTitle = computed(() => {
+	return data?.value?.currentPage?.meta?.seo_title
+		? data?.value?.currentPage?.meta?.seo_title
+		: "";
+});
+
+const description = computed(() => {
+	return data?.value?.currentPage?.meta?.search_description
+		? data?.value?.currentPage?.meta?.search_description
+		: "";
+});
+
+const keywords = computed(() => {
+	return data?.value?.currentPage?.og_keywords
+		? data?.value?.currentPage?.og_keywords
+		: "";
+});
+
+const robotsDirective = computed(() => {
+	return data?.value?.currentPage?.robots_directive
+		? data?.value?.currentPage?.robots_directive
+		: "";
+});
+
+const prepareOGImageUrl = computed(() => {
+	return data?.value?.currentPage?.og_img_original
+		? HOST.value + data?.value?.currentPage?.og_img_original?.original?.src
+		: "";
+});
+
+const fullPath = computed(() => {
+	return requestURL?.href;
+});
+
+useHead({
+	title: getTitle?.value,
+	meta: [
+		{
+			name: "robots",
+			content: robotsDirective,
+		},
+		{
+			name: "title",
+			content: getTitle,
+		},
+		{
+			name: "description",
+			content: description,
+		},
+		{
+			name: "Keywords",
+			content: keywords,
+		},
+		{
+			hid: "og:Keywords",
+			name: "og:Keywords",
+			content: keywords,
+		},
+		{
+			hid: "og:title",
+			property: "og:title",
+			content: getTitle,
+		},
+		{
+			hid: "og:description",
+			property: "og:description",
+			content: description,
+		},
+		{
+			hid: "og:image",
+			property: "og:image",
+			content: prepareOGImageUrl,
+		},
+		{
+			hid: "og:url",
+			property: "og:url",
+			content: fullPath,
+		},
+		{
+			hid: "twitter:title",
+			property: "twitter:title",
+			content: getTitle,
+		},
+		{
+			hid: "twitter:description",
+			property: "twitter:description",
+			content: description,
+		},
+		{
+			hid: "twitter:image",
+			property: "twitter:image",
+			content: prepareOGImageUrl,
+		},
+		{
+			hid: "twitter:url",
+			property: "twitter:url",
+			content: fullPath,
+		},
+	],
+	link: [
+		{
+			rel: "canonical",
+			href: fullPath,
+		},
+	],
+});
 
 </script>
+
 
 <style scoped>
 .page-hero {
@@ -36,7 +193,6 @@ const route = useRoute()
 }
 
 .container {
-    max-width: 1200px;
     width: 100%;
 }
 

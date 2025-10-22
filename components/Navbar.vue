@@ -1,19 +1,16 @@
 <template>
     <nav class="navbar">
-        <NuxtLink to="/" class="logo">
-            <div class="logo-dots">
-                <span class="dot red"></span>
-                <span class="dot black"></span>
-                <span class="dot red"></span>
+        <NuxtLink to="/" class="logo blog-link">
+            <div class="logo">
+                <div class="logo-icon bg-red"></div>
+                <span class="logo-text">RobotSuisse</span>
             </div>
-            <span class="logo-text">RobotSuisse</span>
         </NuxtLink>
     
         <!-- Desktop Navigation -->
         <div class="nav-links desktop-nav">
             <NuxtLink to="/" class="nav-link">Home</NuxtLink>
             <NuxtLink to="/about" class="nav-link">About</NuxtLink>
-            <NuxtLink to="/industries" class="nav-link">Industries</NuxtLink>
             <ProductMenu menuColor="black" />
             <NuxtLink to="/blog" class="nav-link">Blog</NuxtLink>
         </div>
@@ -21,7 +18,7 @@
         <div class="nav-actions">
             <LanguagesButton textColor="black" />
             <NuxtLink to="/contact-us">
-                <button class="contact-btn desktop-contact">Contact Us</button>
+                <button class="contact-btn desktop-contact bg-red">Contact Us</button>
             </NuxtLink>
             <button class="mobile-menu-btn" @click="toggleMenu" aria-label="Toggle menu">
             <span class="hamburger" :class="{ active: isMenuOpen }"></span>
@@ -50,7 +47,6 @@
                 <nav class="sidebar-nav">
                     <NuxtLink to="/" class="sidebar-link" @click="closeMenu">Home</NuxtLink>
                     <NuxtLink to="/about" class="sidebar-link" @click="closeMenu">About</NuxtLink>
-                    <NuxtLink to="/industries" class="sidebar-link" @click="closeMenu">Industries</NuxtLink>
     
                     <!-- Mobile Product Menu -->
                     <div class="mobile-product-section">
@@ -182,34 +178,31 @@ const getProducts = (categoryId) => {
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-decoration: none;
-    z-index: 101;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 101;
 }
 
-.logo-dots {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  position: relative;
+  flex-shrink: 0;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
+.logo-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 2px;
 }
-
-.dot.red {
-    background: #ef4444;
-}
-
-.dot.black {
-    background: #1a1a1a;
-}
-
 .logo-text {
     font-size: 1.125rem;
     font-weight: 600;
@@ -249,7 +242,6 @@ const getProducts = (categoryId) => {
     gap: 1rem;
 }
 .contact-btn {
-    background: #ef4444;
     border: none;
     color: white;
     padding: 0.625rem 1.5rem;
