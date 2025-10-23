@@ -1,26 +1,25 @@
 <template>
   <div class="product-card">
     <div class="product-image">
-      <img :src="product.image" :alt="product.name" class="image" />
-      <span class="product-badge">{{ product.category }}</span>
+      <img :src="HOST + product.thumbnail?.original?.src" :alt="product.title" class="image" />
+      <span class="product-badge">{{ product.fetch_parent.title }}</span>
     </div>
-
     <div class="product-content">
-      <h3 class="product-name">{{ product.name }}</h3>
-      <div class="product-price">CHF {{ product.price.toLocaleString() }}</div>
+      <h3 class="product-name">{{ product.title }}</h3>
+      <!-- <div class="product-price">CHF {{ product.price.toLocaleString() }}</div> -->
 
       <div class="product-specs">
         <div class="spec-item">
           <span class="spec-label">Battery Life:</span>
-          <span class="spec-value">{{ product.batteryLife }}</span>
+          <!-- <span class="spec-value">{{ product.batteryLife }}</span> -->
         </div>
         <div class="spec-item">
           <span class="spec-label">Coverage:</span>
-          <span class="spec-value">{{ product.coverage }}</span>
+          <!-- <span class="spec-value">{{ product.coverage }}</span> -->
         </div>
         <div class="spec-item">
           <span class="spec-label">Noise Level:</span>
-          <span class="spec-value">{{ product.noiseLevel }}</span>
+          <!-- <span class="spec-value">{{ product.noiseLevel }}</span> -->
         </div>
       </div>
 
@@ -35,13 +34,18 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+const config = useRuntimeConfig()
+const HOST = computed(() => {
+	return config.public.HOST
+})
+
+const props = defineProps({
   product: {
     type: Object,
     required: true
   }
 })
-
 defineEmits(['open-modal'])
 </script>
 

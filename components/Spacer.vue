@@ -1,14 +1,18 @@
 <template>
-  <div class="spacer"></div>
+  <div class="spacer" :style="{ padding: props.data.space + 'rem 0' }"></div>
 </template>
 
 <script setup>
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+});
+
 </script>
 
 <style scoped>
-.spacer {
-  padding: 4rem 0;
-}
 
 @media (max-width: 1024px) {
   .spacer {

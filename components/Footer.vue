@@ -43,12 +43,12 @@
 
       <div class="footer-links">
         <div class="link-group">
-          <h4 class="link-title">{{ $t('footer.company') }}</h4>
-          <NuxtLink to="#" class="link">{{ $t('footer.about_us') }}</NuxtLink>
-          <NuxtLink to="#" class="link">{{ $t('footer.our_team') }}</NuxtLink>
-          <NuxtLink to="#" class="link">{{ $t('footer.careers') }}</NuxtLink>
-          <NuxtLink to="#" class="link">{{ $t('footer.partners') }}</NuxtLink>
-          <NuxtLink to="#" class="link">{{ $t('footer.press_kit') }}</NuxtLink>
+          <h4 class="link-title">{{ t('footer.company') }}</h4>
+          <NuxtLink to="#" class="link">{{ t('footer.about_us') }}</NuxtLink>
+          <NuxtLink to="#" class="link">{{ t('footer.our_team') }}</NuxtLink>
+          <NuxtLink to="#" class="link">{{ t('footer.careers') }}</NuxtLink>
+          <NuxtLink to="#" class="link">{{ t('footer.partners') }}</NuxtLink>
+          <NuxtLink to="#" class="link">{{ t('footer.press_kit') }}</NuxtLink>
         </div>
       </div>
 
@@ -167,11 +167,18 @@
 import { storeToRefs } from "pinia";
 import { useUtilityStore } from "@/stores/utility";
 import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { useI18n } from 'vue-i18n';
 
 const utilityStore = useUtilityStore();
 const { getSocials, getSettings } = storeToRefs(utilityStore);
 const { localizedData } = useLocalizedProp(getSettings.value);
+
+// Add i18n composable
+const { t } = useI18n();
+
+console.log(t);
 </script>
+
 <style scoped>
 .footer {
   background: #0a0a0a;
@@ -262,8 +269,8 @@ const { localizedData } = useLocalizedProp(getSettings.value);
 
 .footer-links {
   display: grid;
-  grid-template-columns: repeat(4, 2fr);
-    gap: 4rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4rem;
 }
 
 .link-group {
@@ -353,26 +360,27 @@ const { localizedData } = useLocalizedProp(getSettings.value);
 
 @media (max-width: 1024px) {
   .footer-content {
-    grid-template-columns: 2fr;
+    grid-template-columns: 1fr;
     gap: 3rem;
   }
 
   .footer-links {
-    grid-template-columns: repeat(4, 2fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .footer {
-    padding: 3rem 0 1.5rem;
+    padding: 3rem 1rem 1.5rem;
   }
 
   .footer-content {
     gap: 2.5rem;
+    padding: 1rem;
   }
 
   .footer-links {
-    grid-template-columns: 2fr;
+    grid-template-columns: 1fr;
     gap: 2rem;
   }
 

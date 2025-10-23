@@ -15,13 +15,13 @@
             <h1 class="hero-title">
                 {{ localizedData.hero_title }}
             </h1>
-            <div class="hero-subtext" v-html="localizedData.hero_description"></div>
+            <div class="hero-subtext" v-html="localizedData.hero_subtitle"></div>
         </div>
     </section>
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import { useLocalizedProp } from '@/src/composables/useLocalizedData';
 
 const props = defineProps({
@@ -107,10 +107,13 @@ const imageURL = computed(() => {
     margin-right: auto;
 }
 
-:deep(.hero-subtext p) {
+.hero-subtext {
+  max-width: 500px;
   margin-bottom: 0.75rem !important;
   font-size: 16px !important;
   color: #dfdfdf !important;
+  margin: 0 auto;
+  text-align: center;
 }
 
 /* Responsive Design */

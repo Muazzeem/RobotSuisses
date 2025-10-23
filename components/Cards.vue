@@ -26,7 +26,7 @@ const props = defineProps({
     required: true
   }
 });
-
+console.log(props.data)
 const { localizedData } = useLocalizedProp(props.data);
 </script>
 

@@ -8,52 +8,13 @@
           </svg>
         </button>
 
-        <div class="modal-image">
-          <img :src="robot.image" :alt="robot.name" />
-        </div>
+        <p>{{ robot }}</p>
+
+        <!-- <div class="modal-image" v-if="thumbnailSrc">
+          <img :src="thumbnailSrc" :alt="localizedData.title || 'image'" />
+        </div> -->
 
         <div class="modal-content">
-          <h2 class="modal-title">{{ robot.name }}</h2>
-
-          <div class="specs-list">
-            <div class="spec-row">
-              <span class="spec-label">Battery Life:</span>
-              <span class="spec-value">{{ robot.batteryLife }}</span>
-            </div>
-            <div class="spec-row">
-              <span class="spec-label">Coverage:</span>
-              <span class="spec-value">{{ robot.coverage }}</span>
-            </div>
-            <div class="spec-row">
-              <span class="spec-label">Noise Level:</span>
-              <span class="spec-value">{{ robot.noiseLevel }}</span>
-            </div>
-            <div class="spec-row">
-              <span class="spec-label">Dimensions:</span>
-              <span class="spec-value">{{ robot.dimensions }}</span>
-            </div>
-            <div class="spec-row">
-              <span class="spec-label">Air Filtration Level:</span>
-              <span class="spec-value">{{ robot.airFiltration }}</span>
-            </div>
-            <div class="spec-row">
-              <span class="spec-label">Vacuuming Width:</span>
-              <span class="spec-value">{{ robot.vacuumingWidth }}</span>
-            </div>
-            <div class="spec-row">
-              <span class="spec-label">Sweeping Width:</span>
-              <span class="spec-value">{{ robot.sweepingWidth }}</span>
-            </div>
-            <div class="spec-row">
-              <span class="spec-label">Path Clearance:</span>
-              <span class="spec-value">{{ robot.pathClearance }}</span>
-            </div>
-            <div class="spec-row">
-              <span class="spec-label">Run-time:</span>
-              <span class="spec-value">{{ robot.runtime }}</span>
-            </div>
-          </div>
-
           <button class="btn-quote-modal bg-red">Quote</button>
         </div>
       </div>
@@ -62,37 +23,29 @@
 </template>
 
 <script setup>
+import { computed, watch, onUnmounted } from 'vue';
 const props = defineProps({
-  isOpen: {
-    type: Boolean,
-    default: false
-  },
-  robot: {
-    type: Object,
-    required: true
-  }
-})
+  isOpen: { type: Boolean, default: false },
+  robot: { type: Object, default: null }
+});
+const emit = defineEmits(['close']);
 
-const emit = defineEmits(['close'])
+const config = useRuntimeConfig();
+const HOST = computed(() => config.public.HOST || '');
 
-const close = () => {
-  emit('close')
-}
+const close = () => emit('close');
 
-watch(() => props.isOpen, (newVal) => {
-  if (newVal) {
-    document.body.style.overflow = 'hidden'
-  } else {
-    document.body.style.overflow = ''
-  }
-})
+watch(() => props.isOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : '';
+});
 
 onUnmounted(() => {
-  document.body.style.overflow = ''
-})
+  document.body.style.overflow = '';
+});
 </script>
 
 <style scoped>
+/* keep your styles (copied from your original) */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -142,10 +95,6 @@ onUnmounted(() => {
   transform: rotate(90deg);
 }
 
-.modal-close svg {
-  color: #1a1a1a;
-}
-
 .modal-image {
   width: 100%;
   height: 300px;
@@ -167,44 +116,19 @@ onUnmounted(() => {
   font-size: 2rem;
   font-weight: 600;
   color: #1a1a1a;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
-.specs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.spec-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1rem;
-  padding-bottom: 0rem;
-}
-
-.spec-row:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.spec-label {
-  color: #6b7280;
-  font-weight: 400;
-}
-
-.spec-value {
-  color: #1a1a1a;
-  font-weight: 500;
-  text-align: right;
+.modal-desc {
+  margin-bottom: 1.5rem;
+  color: #374151;
 }
 
 .btn-quote-modal {
   width: 100%;
   padding: 1rem;
   color: white;
+  background: #ef4444;
   border: none;
   border-radius: 12px;
   font-size: 15px;
@@ -257,17 +181,6 @@ onUnmounted(() => {
 
   .modal-title {
     font-size: 1.5rem;
-  }
-
-  .spec-row {
-    font-size: 0.9rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-
-  .spec-value {
-    text-align: left;
   }
 }
 </style>

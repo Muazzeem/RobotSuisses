@@ -7,12 +7,7 @@
         >
             <div class="overlay"></div>
             <div class="content">
-                <h2 class="title">
-                    {{ localizedData.title }}
-                </h2>
-                <p class="description">
-                    {{ localizedData?.subtitle }}
-                </p>
+                <div class="richtext" v-html="localizedData.text"></div>
                 <a :href="props?.data?.button_link" class="cta-button">
                   {{ localizedData?.button_text }}
                   <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -72,7 +67,7 @@ const ImageUrl = computed(() => {
     max-width: 800px;
 }
 
-.title {
+:deep(.richtext h3){
     font-size: 48px;
     font-weight: 500;
     color: white;
@@ -81,15 +76,15 @@ const ImageUrl = computed(() => {
     letter-spacing: -0.02em;
 }
 
-.description {
+:deep(.richtext p){
     max-width: 500px;
     font-size: 1.125rem;
-    color: #b2b2b2;
+    color: #c7c6c6;
     line-height: 1.7;
     margin: 0 auto;
     text-align: center;
     margin-bottom: 1rem;
-}
+} 
 
 .cta-button {
     display: inline-flex;
