@@ -1,19 +1,22 @@
 <template>
   <section class="why-choose">
     <div class="container">
-        <div class="custom-block" v-html="props.data"></div>
+        <div class="custom-block" v-html="localizedData"></div>
     </div>
   </section>
 </template>
 
 <script setup>
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
 
+const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

@@ -2,7 +2,7 @@
   <section class="faq-section">
     <div class="container"> 
       <div class="faq-list">
-        <!-- <div v-for="(item, index) in faqItems" :key="index" class="faq-item" :class="{ active: activeIndex === index }">
+        <div v-for="(item, index) in localizedData.items" :key="index" class="faq-item" :class="{ active: activeIndex === index }">
           <button class="faq-question" @click="toggleFaq(index)" :aria-expanded="activeIndex === index">
             <span>{{ item?.question }}</span>
             <span class="icon">{{ activeIndex === index ? '×' : '+' }}</span>
@@ -10,31 +10,35 @@
           <div class="faq-answer" v-show="activeIndex === index">
             <div v-html="item?.answer"></div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { computed, watch } from "vue";
 const activeIndex = ref(0);
+
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
 
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
+
+const { localizedData } = useLocalizedProp(props.data);
 
 const toggleFaq = (index) => {
   activeIndex.value = activeIndex.value === index ? null : index;
 };
+
 </script>
 
 <style scoped>
 .faq-section {
-  padding: 6rem 0;
+  padding: 2rem 0;
 }
 
 .container {
@@ -98,9 +102,10 @@ const toggleFaq = (index) => {
   animation: slideDown 0.3s ease;
 }
 
-.faq-answer p {
+:deep(.faq-answer p) {
   font-size: 16px;
   color: #666;
+  font-weight: 300 !important;
   line-height: 1.6;
 }
 

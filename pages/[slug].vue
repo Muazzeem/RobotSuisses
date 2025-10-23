@@ -1,8 +1,10 @@
 <template>
-    <Navbar />
-    <PageHeader :pageData="data.currentPage" />
+    <Header />
     <div v-if="data?.currentPage?.body">
         <div v-for="(item, idx) in data?.currentPage?.body" :key="'p_idx_' + idx">
+			<div>
+				<PageHeader v-if="item?.type == 'page_header'" :data="item?.value" />
+			</div>
             <div>
                 <TitleSection v-if="item?.type == 'title'" :data="item?.value" />
             </div>
@@ -34,6 +36,12 @@
 			</div>
 			<div>
 				<Richtext v-if="item?.type=='richtext'" :data="item?.value" />
+			</div>
+			<div>
+				<ContactInfo v-if="item?.type=='contact'" :data="item?.value" />
+			</div>
+			<div class="container">
+				<ContactSection v-if="item?.type=='description'" :data="item?.value" />
 			</div>
         </div>
     </div>

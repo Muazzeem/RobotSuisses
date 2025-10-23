@@ -15,7 +15,7 @@
                 </div>
                 <div style="background: #f9fafb;">
                     <div class="container">
-                        <CategoriesSection v-if="item?.type == 'features'" :data="item?.value" />
+                        <CategoriesSection v-if="item?.type == 'categories'" :data="item?.value" />
                     </div>
                 </div>
                 <div class="container">
@@ -37,6 +37,14 @@
                         <IndustryCallout v-if="item?.type == 'cta'" :data="item?.value" />
                     </div>
                 </div>
+                <div>
+                    <div class="container">
+                        <ContactSection v-if="item?.type=='description'" :data="item?.value" />
+                    </div>
+                </div>
+                <div>
+				    <Spacer v-if="item?.type=='spacer'" :data="item?.value" />
+			    </div>
 
                 <!--  <AIChatAssistant />
                 <div class="container">

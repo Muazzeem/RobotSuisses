@@ -1,99 +1,139 @@
-
 /**
  * Extracts language-specific data from a multi-language object
- * @param {Object} data - The data object with language-specific fields
+ * @param {Object|Array} data - The data object/array with language-specific fields
  * @param {string} lang - Language code (e.g., 'en', 'de_ch', 'fr_ch', 'it_ch')
- * @returns {Object} - Object with only the requested language data
+ * @returns {Object|Array} - Object/Array with only the requested language data
  */
-function getLanguageSpecificData(data, lang) {
-  // Normalize language code to match field naming convention
-  const langSuffix = lang === 'en' ? 'en' : lang.replace('-', '_');
+export function getLanguageSpecificData(data, lang = 'en') {
+  if (!data) return data;
   
-  // Helper function to process a single object
-  function processObject(obj) {
-    const result = {};
-    
-    for (const key in obj) {
-      // Skip if not own property
-      if (!obj.hasOwnProperty(key)) continue;
-      
-      // Check if this is a language-specific field
-      if (key.includes('_')) {
-        const [fieldName, fieldLang] = key.split('_', 2);
-        const fullLang = key.substring(fieldName.length + 1);
-        
-        // If it matches our target language, add it without suffix
-        if (fullLang === langSuffix) {
-          result[fieldName] = obj[key];
-        }
-      } 
-      // Handle fields without language suffix (like 'title_en')
-      else if (key.endsWith('_en') && langSuffix === 'en') {
-        const fieldName = key.substring(0, key.length - 3);
-        result[fieldName] = obj[key];
-      }
-      // Check for exact match pattern (field_lang)
-      else if (key === `${key.split('_')[0]}_${langSuffix}`) {
-        const fieldName = key.substring(0, key.lastIndexOf('_'));
-        result[fieldName] = obj[key];
-      }
-      // For non-language-specific fields, keep as is
-      else if (!key.match(/_(en|de_ch|fr_ch|it_ch)$/)) {
-        result[key] = obj[key];
-      }
-    }
-    
-    return result;
+  // Normalize language code (e.g., 'itch' -> 'it_ch')
+  const normalizedLang = normalizeLangCode(lang);
+  
+  // Handle arrays
+  if (Array.isArray(data)) {
+    return data.map(item => getLanguageSpecificData(item, normalizedLang));
   }
   
-  // Helper to extract language fields properly
-  function extractLanguageFields(obj, targetLang) {
-    const result = {};
-    const processed = new Set();
+  // Handle non-objects
+  if (typeof data !== 'object') {
+    return data;
+  }
+  
+  const result = {};
+  const processedFields = new Set();
+  
+  // First pass: identify all base field names
+  for (const key in data) {
+    if (!data.hasOwnProperty(key)) continue;
     
-    for (const key in obj) {
-      if (!obj.hasOwnProperty(key)) continue;
+    const match = key.match(/^(.+)_(en|de_ch|fr_ch|it_ch)$/);
+    
+    if (match) {
+      const baseName = match[1];
+      processedFields.add(baseName);
+    }
+  }
+  
+  // Second pass: extract language-specific values
+  for (const key in data) {
+    if (!data.hasOwnProperty(key)) continue;
+    
+    const match = key.match(/^(.+)_(en|de_ch|fr_ch|it_ch)$/);
+    
+    if (match) {
+      const baseName = match[1];
+      const targetKey = `${baseName}_${normalizedLang}`;
       
-      // Extract base field name and language
-      const match = key.match(/^(.+)_(en|de_ch|fr_ch|it_ch)$/);
-      
-      if (match) {
-        const [, baseName, lang] = match;
+      // Only process once per base name
+      if (data.hasOwnProperty(targetKey) && !result.hasOwnProperty(baseName)) {
+        const value = data[targetKey];
         
-        if (!processed.has(baseName)) {
-          processed.add(baseName);
-          
-          // Get value for target language
-          const langKey = `${baseName}_${targetLang}`;
-          if (obj[langKey] !== undefined && obj[langKey] !== '') {
-            result[baseName] = obj[langKey];
+        // Use the value if it's not empty, otherwise fallback to English
+        if (value !== null && value !== undefined && value !== '') {
+          result[baseName] = processValue(value, normalizedLang);
+        } else if (normalizedLang !== 'en') {
+          // Fallback to English if target language is empty
+          const fallbackKey = `${baseName}_en`;
+          if (data[fallbackKey]) {
+            result[baseName] = processValue(data[fallbackKey], normalizedLang);
           }
         }
-      } else {
-        // Non-language-specific field
-        if (Array.isArray(obj[key])) {
-          result[key] = obj[key].map(item => 
-            typeof item === 'object' && item !== null 
-              ? extractLanguageFields(item, targetLang) 
-              : item
-          );
-        } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-          result[key] = extractLanguageFields(obj[key], targetLang);
-        } else {
-          result[key] = obj[key];
-        }
+      }
+    } else {
+      // Non-language-specific fields (like 'id', 'image', etc.)
+      if (!processedFields.has(key)) {
+        result[key] = processValue(data[key], normalizedLang);
       }
     }
-    
-    return result;
   }
   
-  return extractLanguageFields(data, langSuffix);
+  return result;
 }
 
-// Example usage with URL parameter
-function getDataFromURL(data) {
+/**
+ * Normalize language code to match backend format
+ * @param {string} lang - Language code
+ * @returns {string} - Normalized language code
+ */
+function normalizeLangCode(lang) {
+  if (!lang) return 'en';
+  
+  const normalized = lang.toLowerCase().trim();
+  
+  // Map common variations
+  const langMap = {
+    'en': 'en',
+    'de': 'de_ch',
+    'de_ch': 'de_ch',
+    'dech': 'de_ch',
+    'fr': 'fr_ch',
+    'fr_ch': 'fr_ch',
+    'frch': 'fr_ch',
+    'it': 'it_ch',
+    'it_ch': 'it_ch',
+    'itch': 'it_ch'
+  };
+  
+  return langMap[normalized] || 'en';
+}
+
+/**
+ * Process a value recursively
+ * @param {*} value - The value to process
+ * @param {string} lang - Language code
+ * @returns {*} - Processed value
+ */
+function processValue(value, lang) {
+  if (Array.isArray(value)) {
+    return value.map(item => 
+      typeof item === 'object' && item !== null 
+        ? getLanguageSpecificData(item, lang)
+        : item
+    );
+  } else if (typeof value === 'object' && value !== null) {
+    return getLanguageSpecificData(value, lang);
+  }
+  return value;
+}
+
+/**
+ * Get language from URL parameter
+ * @returns {string} - Language code from URL or default 'en'
+ */
+export function getLangFromURL() {
+  if (typeof window === 'undefined') return 'en';
+  
   const urlParams = new URLSearchParams(window.location.search);
-  const lang = urlParams.get('lang') || 'en';
+  return urlParams.get('lang') || 'en';
+}
+
+/**
+ * Get localized data based on URL parameter
+ * @param {Object|Array} data - The data to localize
+ * @returns {Object|Array} - Localized data
+ */
+export function getLocalizedDataFromURL(data) {
+  const lang = getLangFromURL();
   return getLanguageSpecificData(data, lang);
 }

@@ -7,36 +7,37 @@
             }"
         ></div>
         <div class="container">
-            <!-- <div>
+            <div>
                 <div class="update-badge">
-                   {{ localizedContent?.tag }}
+                   {{ localizedData.tag }}
                 </div>
             </div>
             <h1 class="hero-title">
-                {{ localizedContent?.hero_title }}
+                {{ localizedData.hero_title }}
             </h1>
-            <p class="hero-subtext">
-                {{ localizedContent?.hero_description }}
-            </p> -->
+            <div class="hero-subtext" v-html="localizedData.hero_description"></div>
         </div>
     </section>
 </template>
 
 <script setup>
 import { computed, watch } from 'vue'
-const props = defineProps({
-    pageData: {
-        type: Object,
-        required: true
-    }
-})
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
 
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+});
+
+const { localizedData } = useLocalizedProp(props.data);
 const config = useRuntimeConfig()
 const HOST = computed(() => {
 	return config.public.HOST
 })
 const imageURL = computed(() => {
-	return HOST.value + props.pageData?.hero_image?.meta?.download_url
+	return HOST.value + props.data?.image?.original?.src
 })
 </script>
 
@@ -46,10 +47,9 @@ const imageURL = computed(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4rem 2rem;
+    padding: 7rem 2rem;
     position: relative;
     overflow: hidden;
-    margin-bottom: 1rem;
 }
 
 .hero-background {
@@ -74,6 +74,7 @@ const imageURL = computed(() => {
 }
 
 .container {
+    margin-top: 4rem;
     max-width: 1200px;
     width: 100%;
     text-align: center;
@@ -106,12 +107,10 @@ const imageURL = computed(() => {
     margin-right: auto;
 }
 
-.hero-subtext {
-    max-width: 70%;
-    margin: 0 auto;
-    margin-top: 1rem;
-    color: white;
-    font-size: 1.1rem;
+:deep(.hero-subtext p) {
+  margin-bottom: 0.75rem !important;
+  font-size: 16px !important;
+  color: #dfdfdf !important;
 }
 
 /* Responsive Design */

@@ -41,18 +41,17 @@ body {
   text-decoration: none;
 }
 .category-tag {
-  border: 1px solid #ef4444;
+  border: 1px solid #FF0000;
   padding: 0.25rem 0.9rem;
   border-radius: 9999px;
   background-color: #FF00000F;
   display: inline-block;
-  color: #ef4444;
+  color: #FF0000;
   font-size: 15px;
   font-weight: 500;
   text-transform: capitalize;
   letter-spacing: 0px !important;
   line-height: 18px;
-  margin-bottom: 1rem;
 }
 
 .featured {
@@ -61,4 +60,19 @@ body {
 }
 .bg-red{
   background-color: #FF0000;
+}
+.icon-wrapper {
+  width: 56px;
+  height: 56px;
+  background: #FF0000;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.icon-size{
+  font-size: 2rem;
 }

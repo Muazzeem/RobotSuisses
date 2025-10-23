@@ -91,7 +91,7 @@ const hasMore = computed(() => !!nextPageUrl.value)
 // Fetch blog posts
 const fetchBlogPosts = async (url = null) => {
     try {
-        const apiUrl = url || 'http://localhost:8000/api/v2/pages/?type=home.BlogDetailPage&fields=title,title_ar,thumbnail,author,short_description,short_description_ar,tags,fetch_parent,last_published_at,slug'
+        const apiUrl = url || 'http://localhost:8000/api/v2/pages/?type=home.BlogDetailPage&fields=title_en,title_de_ch,title_fr_ch,title_it_ch,short_description_en,short_description_de_ch,short_description_fr_ch,short_description_it_ch,thumbnail,author,tags_en,tags_de_ch,tags_fr_ch,tags_it_ch,fetch_parent,last_published_at,body,is_featured,slug'
         
         const response = await fetch(apiUrl)
         
@@ -100,7 +100,7 @@ const fetchBlogPosts = async (url = null) => {
         }
         
         const data = await response.json()
-        
+        console.log(data)
         return {
             items: data.items || data.results || [],
             next: data.meta?.next_url || data.next || null

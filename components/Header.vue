@@ -35,7 +35,7 @@
       <aside v-if="sidebarOpen" class="sidebar">
         <div class="sidebar-header">
           <div class="logo">
-            <div class="logo-icon"></div>
+            <div class="logo-icon bg-red"></div>
             <span class="logo-text">RobotSuisse</span>
           </div>
         </div>
@@ -48,7 +48,7 @@
         </nav>
 
         <div class="sidebar-footer">
-          <button class="contact-btn mobile-contact" @click="toggleSidebar">Contact Us</button>
+          <button class="contact-btn mobile-contact bg-red" @click="toggleSidebar">Contact Us</button>
         </div>
       </aside>
     </transition>
@@ -78,15 +78,19 @@ onBeforeRouteUpdate(() => {
 
 <style scoped>
 .header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 .logo {

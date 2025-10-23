@@ -2,22 +2,24 @@
   <section class="why-choose" :style="{ background: props.data.bg_color_code }">
     <div class="container">
       <div class="section-header">
-        <!-- <div class="category-tag">{{ localizedContent.tag }}</div>
-        <h2 class="section-title">{{ localizedContent.title }}</h2>
-        <p class="section-description">{{ localizedContent.subtitle }}</p> -->
+        <div class="category-tag">{{ localizedData.tag }}</div>
+        <div class="richtext" v-html="localizedData.title"></div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
 
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
+
+const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>
@@ -34,15 +36,14 @@ const props = defineProps({
   text-align: center;
 }
 
-.section-title {
+:deep(.richtext h2){
   font-size: 48px;
   font-weight: 500;
   color: #1a1a1a;
-  margin-bottom: 1rem;
   letter-spacing: -0.02em;
 }
 
-.section-description {
+:deep(.richtext p){
   max-width: 500px;
   font-size: 16px;
   color: #10182899;

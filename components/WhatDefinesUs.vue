@@ -78,7 +78,7 @@
 
 @media (max-width: 768px) {
   .what-defines-section {
-    padding: 3rem 0 4rem;
+    padding: 1rem 0 1rem;
   }
 
   .video-container {

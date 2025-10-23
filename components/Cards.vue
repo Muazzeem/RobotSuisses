@@ -3,14 +3,14 @@
     <div class="container">
       <div class="cards-grid">
         <div 
-          v-for="(item, index) in data.items" 
+          v-for="(item, index) in localizedData.items" 
           :key="index" 
           class="card"
         >
           <div class="icon-wrapper">
             <i :class="item?.icon" class="icon-size"></i>
           </div>
-          <div class="card-description richtext" v-html="item.description_en"></div>
+          <div class="card-description richtext" v-html="item.description"></div>
         </div>
       </div>
     </div>
@@ -18,12 +18,16 @@
 </template>
 
 <script setup>
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
-  },
-})
+    required: true
+  }
+});
+
+const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>
@@ -53,20 +57,6 @@ const props = defineProps({
   transform: translateY(-2px);
 }
 
-.icon-wrapper {
-  width: 56px;
-  height: 56px;
-  background: #FF0000;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  color: white;
-}
-.icon-size{
-  font-size: 2rem;
-}
 .card-description h2, h3, h4, h5, h6 {
   font-size: 1.5rem !important;
   font-weight: 600 !important;
@@ -83,7 +73,7 @@ p {
 
 @media (max-width: 768px) {
   .mission-vision-section {
-    padding: 4rem 0 2rem;
+    padding: 1rem 0 1rem;
   }
 
   .cards-grid {

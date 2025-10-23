@@ -2,52 +2,11 @@
   <section class="contact">
     <div class="contact-grid">
       <div class="contact-content">
-        <div class="category-tag">Contact us</div>
-        <h2 class="section-title">Get Personalized Robot Recommendations</h2>
-        <p class="section-description">
-          Tell us about your needs, and our AI-powered system will match you with
-          the perfect robotic solution. Get expert advice tailored to your industry
-          and requirements.
-        </p>
-
-        <ul class="benefits-list">
-          <li class="benefit-item">
-            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd" />
-            </svg>
-            <span>Free consultation with Swiss robotics experts</span>
-          </li>
-          <li class="benefit-item">
-            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd" />
-            </svg>
-            <span>AI-powered robot matching based on your needs</span>
-          </li>
-          <li class="benefit-item">
-            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd" />
-            </svg>
-            <span>Custom ROI analysis and implementation roadmap</span>
-          </li>
-          <li class="benefit-item">
-            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd" />
-            </svg>
-            <span>No obligation, just expert guidance</span>
-          </li>
-        </ul>
+        <div class="richtext" v-html="localizedData.description"></div>
 
         <div class="chat-option">
           <div class="chat-info">
-            <div class="chat-icon">
+            <div class="chat-icon bg-red">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <path
                   d="M12 2C6.48 2 2 6.48 2 12c0 1.54.36 3 .97 4.29L2 22l5.71-.97C9 21.64 10.46 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.38 0-2.67-.32-3.83-.88l-.27-.14-2.83.48.48-2.83-.14-.27C4.32 14.67 4 13.38 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z" />
@@ -56,12 +15,11 @@
               </svg>
             </div>
             <div>
-              <div class="chat-title">Prefer to Chat?</div>
-              <div class="chat-subtitle">Talk to our AI assistant for instant recommendations</div>
+              <div class="chat-text" v-html="localizedData.ai_chat"></div>
             </div>
           </div>
           <button class="chat-button" @click="startChat">
-            Start AI Chat
+            {{ localizedData.button_text }}
             <svg class="arrow-icon" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd"
                 d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
@@ -155,6 +113,17 @@
 <script setup>
 import { ref } from 'vue'
 
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+});
+
+const { localizedData } = useLocalizedProp(props.data);
+
 const formData = ref({
   fullName: '',
   email: '',
@@ -194,7 +163,6 @@ const startChat = () => {
 
 <style scoped>
 .contact {
-  padding: 6rem 0;
   background: white;
 }
 
@@ -208,29 +176,62 @@ const startChat = () => {
 .contact-content {
   padding-right: 2rem;
 }
+.richtext{
+  padding-bottom: 2rem;
+}
 
-.benefits-list {
+:deep(.richtext h2){
+  font-size: 48px !important;
+  line-height: 56px !important;
+  font-weight: 500 !important;
+}
+
+:deep(.richtext h3){
+  font-size: 34px !important;
+  line-height: 44px !important;
+  font-weight: 500 !important;
+  letter-spacing: -2% !important;
+  vertical-align: middle !important;
+}
+
+:deep(.richtext p) {
+  margin-top: 0.7rem !important;
+  margin-bottom: 0.75rem !important;
+  font-size: 16px !important;
+  color: #10182899 !important;
+}
+
+:deep(.richtext ul) {
   list-style: none;
-  margin-bottom: 2.5rem;
+  padding-left: 0;
 }
 
-.benefit-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  color: #4b5563;
-  font-size: 0.95rem;
+:deep(.richtext li) {
+  position: relative;
+  margin-top: 0.7rem !important;
+  margin-bottom: 0.75rem !important;
+  font-size: 16px !important;
+  color: #10182899 !important;
+  font-weight: 300;
+  margin-left: 2rem;
+  padding-left: 1.5rem;
 }
 
-.check-icon {
-  width: 20px;
-  height: 20px;
+:deep(.richtext li::before) {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
   color: #10b981;
-  flex-shrink: 0;
-  margin-top: 2px;
+  font-weight: bold;
+  font-size: 18px;
 }
 
+:deep(.chat-text p){
+  color: #10182899;
+  font-size: 14px;
+  font-weight: 400;
+}
 .chat-option {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
@@ -248,7 +249,6 @@ const startChat = () => {
 .chat-icon {
   width: 48px;
   height: 48px;
-  background: #ef4444;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -278,11 +278,11 @@ const startChat = () => {
   width: 100%;
   padding: 0.875rem 1.5rem;
   background: white;
-  color: #ef4444;
-  border: 2px solid #ef4444;
+  color: #FF0000;
+  border: 2px solid #FF0000;
   border-radius: 8px;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -388,12 +388,12 @@ const startChat = () => {
 
 .submit-button {
   padding: 1rem 2rem;
-  background: #ef4444;
+  background: #FF0000;
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;

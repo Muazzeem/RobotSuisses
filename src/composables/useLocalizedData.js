@@ -1,48 +1,31 @@
-import { computed } from "vue"
-import { useRoute } from "vue-router"
-import { useI18n } from "vue-i18n"
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { getLanguageSpecificData } from '@/utils/getLocalizedData';
 
 export function useLocalizedData(data) {
-  const route = useRoute()
-  const { locale } = useI18n()
+  const { locale } = useI18n();
 
-  const getLocaleField = (obj, field, lang) => {
-    const isDefault = lang === "en"
-    const localizedField = isDefault ? field : `${field}_${lang}`
-    return obj[localizedField] || obj[`${field}_en`] || obj[field] || ""
-  }
+  const localizedData = computed(() => {
+    if (!data.value) return null;
+    return getLanguageSpecificData(data.value, locale.value);
+  });
 
-  const localizeObject = (obj, lang) => {
-    if (Array.isArray(obj)) {
-      return obj.map((item) => localizeObject(item, lang))
-    } else if (typeof obj === "object" && obj !== null) {
-      const localized = {}
-      for (const key in obj) {
-        // Only process base fields once (skip language suffixes)
-        if (!/_en$|_de_ch$|_fr_ch$|_it_ch$/.test(key)) {
-          if (
-            obj.hasOwnProperty(`${key}_${lang}`) ||
-            obj.hasOwnProperty(`${key}_en`)
-          ) {
-            localized[key] = getLocaleField(obj, key, lang)
-          } else {
-            localized[key] = localizeObject(obj[key], lang)
-          }
-        }
-      }
-      return localized
-    }
-    return obj
-  }
+  return {
+    localizedData,
+    currentLocale: locale
+  };
+}
 
-  const localized = computed(() => {
-    if (!data || !data.value) return data
-    const langFromUrl = route.query.lang?.toLowerCase() || locale.value
-    return {
-      ...data,
-      value: localizeObject(data.value, langFromUrl),
-    }
-  })
+export function useLocalizedProp(propData) {
+  const { locale } = useI18n();
 
-  return localized
+  const localizedData = computed(() => {
+    if (!propData) return null;
+    return getLanguageSpecificData(propData, locale.value);
+  });
+
+  return {
+    localizedData,
+    currentLocale: locale
+  };
 }

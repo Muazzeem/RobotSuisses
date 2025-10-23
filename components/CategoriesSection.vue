@@ -3,46 +3,12 @@
   <section class="categories">
     <div class="container">
       <div class="categories-grid">
-        <div class="category-card home-robot">
-          <div class="category-content">
-            <div class="card-content">
-              <h3 class="category-title">Home Robots</h3>
-              <p class="category-description">
-                Intelligent home automation and assistance robots for modern living
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="category-card industrial-robot">
-          <div class="category-content">
-            <div class="card-content">
-              <h3 class="category-title">Industrial Robots</h3>
-              <p class="category-description">
-                Heavy-duty manufacturing and assembly line automation solutions
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="category-card service-robot">
-          <div class="category-content">
-            <div class="card-content">
-              <h3 class="category-title">Service Robots</h3>
-              <p class="category-description">
-                Customer-facing robots for hospitality and retail environments
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="category-card medical-robot">
-          <div class="category-content">
-            <div class="card-content">
-              <h3 class="category-title">Medical Robots</h3>
-              <p class="category-description">
-                Precision healthcare robotics for surgical and therapeutic applications
-              </p>
+        <div class="category-card" v-for="(item, index) in localizedData.items" :key="index">
+          <div class="category-card" :style="{ backgroundImage: `url(${HOST + item?.image?.original?.src})` }">
+            <div class="category-content">
+              <div class="card-content">
+                <div v-html="item.description"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -51,34 +17,28 @@
   </section>
 </template>
 
+<script setup>
+import { computed } from 'vue';
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+const config = useRuntimeConfig()
+const HOST = computed(() => {
+	return config.public.HOST
+})
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+});
+
+const { localizedData } = useLocalizedProp(props.data);
+
+</script>
+
 <style scoped>
 .categories {
-  padding: 6rem 0;
+  padding: 3rem 0;
 
-}
-
-.category-tag {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: #fef2f2;
-  color: #ef4444;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-}
-
-.section-description {
-  font-size: 1.125rem;
-  color: #6b7280;
-  line-height: 1.6;
 }
 
 .categories-grid {
@@ -113,27 +73,12 @@
 
 .category-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(105, 104, 104, 0.2);
 }
 
-.category-card:hover::before {
-  background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
-}
-
-.home-robot {
-  background-image: url('https://images.unsplash.com/photo-1561144257-e32e6e4c6db8?w=800&q=80');
-}
-
-.industrial-robot {
-  background-image: url('https://images.unsplash.com/photo-1565611741341-b8c6d8b1b19c?w=800&q=80');
-}
-
-.service-robot {
-  background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80');
-}
 
 .medical-robot {
-  background-image: url('https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&q=80');
+  background-image: url('http://localhost:8000/media/images/Robotic-Arm-Manufac.original.jpegquality-80.format-webp.webp');
 }
 
 .category-content {
@@ -149,15 +94,12 @@
   background-color: white;
   border-radius: 10px;
 }
-.category-title {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.category-description {
-  font-size: 0.95rem;
-  line-height: 1.6;
+:deep(p) {
+  margin-bottom: 0.75rem !important;
+  font-size: 14px !important;
+  line-height: 21px !important;
+  color: #737373 !important;
+  font-weight: 400 !important;
 }
 
 @media (max-width: 1024px) {

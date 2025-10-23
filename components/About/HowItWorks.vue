@@ -4,22 +4,24 @@
       <div class="content-grid">
         <!-- Left Section -->
         <div class="left-section">
-          <div class="category-tag" style="max-width: fit-content;">How it works</div>
+          <div class="category-tag" style="max-width: fit-content;">
+            {{ localizedData.tag }}
+          </div>
           
-          <div class="richtext" v-html="data.description_en"></div>
+          <div class="richtext" v-html="localizedData.description"></div>
           <div class="chat-card">
             <div class="chat-header">
               <div class="icon-wrapper">
-                <i :class="data.icon" class="icon-size"></i>
+                <i :class="localizedData.icon" class="icon-size"></i>
               </div>
               <div>
-                <h4 class="chat-title">{{ data.title_en }}</h4>
-                <p class="chat-subtitle">{{ data.subtitle_en }}</p>
+                <h4 class="chat-title">{{ localizedData.title }}</h4>
+                <p class="chat-subtitle">{{ localizedData.subtitle }}</p>
               </div>
             </div>
             
             <button class="chat-button">
-              {{ data.button_text_en }} 
+              {{ localizedData.button_text }} 
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
@@ -31,12 +33,12 @@
         <!-- Right Section -->
         <div class="right-section">
           <div 
-            v-for="(step, index) in data.items" 
+            v-for="(step, index) in localizedData.items" 
             :key="index" 
             class="step-card"
           >
             <span class="step-number">0{{ index + 1 }}</span>
-            <div class="richtext" v-html="step.description_en"></div>
+            <div class="richtext" v-html="step.description"></div>
           </div>
         </div>
       </div>
@@ -45,12 +47,16 @@
 </template>
 
 <script setup>
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
-  },
-})
+    required: true
+  }
+});
+
+const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

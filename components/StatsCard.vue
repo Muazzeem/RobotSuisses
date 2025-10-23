@@ -27,6 +27,16 @@
 </template>
 
 <script setup>
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
+  }
+});
+
+const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

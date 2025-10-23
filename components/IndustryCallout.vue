@@ -6,32 +6,36 @@
             }"
         >
             <div class="overlay"></div>
-            <!-- <div class="content">
+            <div class="content">
                 <h2 class="title">
-                    {{ data.title_en }}
+                    {{ localizedData.title }}
                 </h2>
                 <p class="description">
-                    {{ data?.subtitle }}
+                    {{ localizedData?.subtitle }}
                 </p>
                 <a :href="props?.data?.button_link" class="cta-button">
-                  {{ data?.button_text }}
+                  {{ localizedData?.button_text }}
                   <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </a>
-            </div> -->
+            </div>
         </div>
     </section>
 </template>
 
 <script setup>
 import { computed, watch } from 'vue'
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
 const props = defineProps({
-    data: {
-        type: Object,
-        required: true
-    }
-})
+  data: {
+    type: Object,
+    required: true
+  }
+});
+
+const { localizedData } = useLocalizedProp(props.data);
 const config = useRuntimeConfig()
 const HOST = config.public.HOST
 const ImageUrl = computed(() => {

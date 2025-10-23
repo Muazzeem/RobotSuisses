@@ -3,16 +3,15 @@
     <div class="hero-overlay"></div>
     <div class="container">
       <div class="hero-content">
-        <!-- <p style="color: white;">{{ result }}</p> -->
         <h1 class="hero-title">
-          {{ localized?.value?.title }}
+          {{ localizedData?.title }}
         </h1>
         <p class="hero-description">
-          {{ data.subtitle_en }}
+          {{ localizedData?.subtitle }}
         </p>
         <div class="hero-stats">
-          <div class="stat" v-for="(item, index) in data.sub_items" :key="index">
-            <div class="stat-value">{{ item.title_en }}</div>
+          <div class="stat" v-for="(item, index) in localizedData?.sub_items" :key="index">
+            <div class="stat-value">{{ item?.title }}</div>
           </div>
         </div>
       </div>
@@ -21,15 +20,16 @@
 </template>
 
 <script setup>
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
 const props = defineProps({
   data: {
     type: Object,
     required: true
   }
-})
+});
 
-const result = getLanguageSpecificData(props?.data?.value, 'it_ch');
-console.log("result", result)
+const { localizedData, currentLocale } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>
@@ -64,16 +64,19 @@ console.log("result", result)
 .hero-content {
   max-width: 100%;
 }
-.hero-title{
+
+.hero-title {
   width: 60%;
   color: white;
   font-size: 96px;
   line-height: 96px;
 }
-.hero-description{
+
+.hero-description {
   margin-top: 2rem;
   color: white;
 }
+
 .hero-stats {
   display: grid;
   grid-template-columns: repeat(4, auto);
@@ -117,7 +120,8 @@ console.log("result", result)
     max-width: 100%;
     padding: 0 1rem;
   }
-  .hero-title{
+
+  .hero-title {
     width: 80%;
     font-size: 66px;
     line-height: 75px;
@@ -125,11 +129,11 @@ console.log("result", result)
 }
 
 @media (max-width: 480px) {
-  .hero-title{
+  .hero-title {
     width: 100%;
     font-size: 50px;
     line-height: 50px;
     margin-bottom: 1rem;
-  } 
+  }
 }
 </style>

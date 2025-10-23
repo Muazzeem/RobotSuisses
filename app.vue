@@ -15,7 +15,9 @@ onMounted(() => {
 	watch(
 		locale,
 		(newLocale) => {
-			console.log('locale changed to', newLocale)
+			if (newLocale) {
+				document.documentElement.lang = newLocale
+			}
 		},
 		{ immediate: true }
 	);

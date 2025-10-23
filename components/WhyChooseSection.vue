@@ -4,21 +4,13 @@
       <div class="features-grid">
         <div
           class="feature-card"
-          v-for="(item, index) in data.items"
+          v-for="(item, index) in localizedData.items"
           :key="index"
         >
           <div class="icon-wrapper bg-red">
-            <svg
-              class="icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z" />
-            </svg>
+            <i :class="item.icon"  class="icon-size" style="color: white;"></i>
           </div>
-          <div class="richtext" v-html="item.description_en"></div>
+          <div class="richtext" v-html="item.description"></div>
         </div>
       </div>
     </div>
@@ -26,13 +18,16 @@
 </template>
 
 <script setup>
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 });
 
+const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

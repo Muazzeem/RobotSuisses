@@ -4,10 +4,10 @@
       <div class="quote-card">
         <div class="quote-mark">"</div>
         <blockquote class="quote-text">
-          {{ props.data.quote_en }}
+          {{ localizedData.quote }}
         </blockquote>
         <p class="quote-author">
-            {{ props.data.author_en }}
+            {{ localizedData.author }}
         </p>
       </div>
     </div>
@@ -15,12 +15,16 @@
 </template>
 
 <script setup>
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
-  },
-})
+    required: true
+  }
+});
+
+const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>
@@ -62,7 +66,7 @@ const props = defineProps({
 
 @media (max-width: 768px) {
   .mission-vision-section {
-    padding: 4rem 0 2rem;
+    padding: 1rem 0 1rem;
   }
 
   .quote-card {

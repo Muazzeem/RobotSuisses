@@ -13,6 +13,7 @@
     "@nuxtjs/i18n": "^10.1.1",
     "@pinia/nuxt": "^0.7.0",
     "dayjs": "^1.11.18",
-    "nuxt": "^3.14.1592"
+    "nuxt": "^3.14.1592",
+    "pinia-plugin-persistedstate": "^4.5.0"
   }
 }
