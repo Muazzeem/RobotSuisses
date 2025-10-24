@@ -3,13 +3,14 @@ import { useUtilityStore } from "@/stores/utility";
 export default defineNuxtPlugin(async () => {
   const utilityStore = useUtilityStore();
 
-  // Check if settings are already loaded (for navigation between pages)
-  if (!utilityStore.getSettings) {
+  if (!utilityStore.getSettings || !utilityStore.getRobots) {
     try {
-      await utilityStore.fetchSettings();
+      if (!utilityStore.getSettings) await utilityStore.fetchSettings();
+      if (!utilityStore.getRobots) await utilityStore.fetchRobots();
     } catch (error) {
       console.error("Failed to initialize settings:", error);
     }
   }
 });
+
 

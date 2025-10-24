@@ -1,26 +1,28 @@
 <template>
   <div class="product-card">
     <div class="product-image">
-      <img :src="HOST + product.thumbnail?.original?.src" :alt="product.title" class="image" />
+      <img :src="HOST + product?.thumbnail?.original?.src" :alt="product.title" class="image" />
       <span class="product-badge">{{ product.fetch_parent.title }}</span>
     </div>
+
     <div class="product-content">
       <h3 class="product-name">{{ product.title }}</h3>
       <!-- <div class="product-price">CHF {{ product.price.toLocaleString() }}</div> -->
 
       <div class="product-specs">
-        <div class="spec-item">
-          <span class="spec-label">Battery Life:</span>
-          <!-- <span class="spec-value">{{ product.batteryLife }}</span> -->
+       <div class="spec-item">
+          <span class="spec-label">
+            {{ truncateText(product.short_description, 100) }}
+          </span>
         </div>
-        <div class="spec-item">
+         <!-- <div class="spec-item">
           <span class="spec-label">Coverage:</span>
-          <!-- <span class="spec-value">{{ product.coverage }}</span> -->
+          <span class="spec-value">{{ product.coverage }}</span>
         </div>
         <div class="spec-item">
           <span class="spec-label">Noise Level:</span>
-          <!-- <span class="spec-value">{{ product.noiseLevel }}</span> -->
-        </div>
+          <span class="spec-value">{{ product.noiseLevel }}</span>
+        </div> -->
       </div>
 
       <div class="product-actions">
@@ -34,18 +36,16 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 const config = useRuntimeConfig()
-const HOST = computed(() => {
-	return config.public.HOST
-})
+const HOST = config.public.HOST
 
-const props = defineProps({
+defineProps({
   product: {
     type: Object,
     required: true
   }
 })
+
 defineEmits(['open-modal'])
 </script>
 

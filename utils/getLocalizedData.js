@@ -13,7 +13,6 @@ export function getLanguageSpecificData(data, lang = 'en') {
   const langRegex = /_(en|de_ch|fr_ch|it_ch)$/;
   const hasLangFields = keys.some(k => langRegex.test(k));
 
-  // If object has no language fields, still process nested objects recursively
   if (!hasLangFields) {
     const result = {};
     for (const [k, v] of Object.entries(data)) {

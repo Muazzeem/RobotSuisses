@@ -52,6 +52,18 @@ const props = defineProps({
     }
 })
 import { ref, computed } from 'vue'
+import { storeToRefs } from "pinia";
+import { useUtilityStore } from "@/stores/utility";
+
+const utilityStore = useUtilityStore();
+const { getRobots } = storeToRefs(utilityStore);
+
+onMounted(async () => {
+  if (!getRobots.value || getRobots.value.length === 0) {
+    await utilityStore.fetchRobots();
+  }
+  console.log("Robots:", getRobots.value);
+});
 
 const isOpen = ref(false)
 const activeCategory = ref('home')

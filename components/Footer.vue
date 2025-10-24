@@ -176,7 +176,6 @@ const { localizedData } = useLocalizedProp(getSettings.value);
 // Add i18n composable
 const { t } = useI18n();
 
-console.log(t);
 </script>
 
 <style scoped>
