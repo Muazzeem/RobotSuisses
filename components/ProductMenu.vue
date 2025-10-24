@@ -18,10 +18,10 @@
                 <div class="menu-container">
                     <!-- Categories Sidebar -->
                     <div class="categories-sidebar">
-                        <button v-for="category in localizedData" :key="category.id" class="category-item"
+                        <button v-for="category in uniqueCategories" :key="category.id" class="category-item"
                             :class="{ active: activeCategory === category.id }"
                             @mouseenter="setActiveCategory(category.id)">
-                            {{ category.title }}
+                            <!-- {{ getLocalizedTitle(category) }} -->
                         </button>
                     </div>
 
@@ -29,11 +29,12 @@
                     <div class="products-section">
                         <div class="products-grid">
                             <NuxtLink v-for="product in activeProducts" :key="product.id"
-                                :to="`/products/${product.slug}`" class="product-card" @click="closeMenu">
+                                :to="`/products/${product.meta?.slug || product.slug}`" class="product-card" @click="closeMenu">
                                 <div class="product-image">
-                                    <img :src="product.image" :alt="product.name" />
+                                    <img :src="product.thumbnail?.original?.src || product.image" 
+                                         :alt="getLocaleField(product, 'title', 'de_ch')" />
                                 </div>
-                                <h3 class="product-name">{{ product.name }}</h3>
+                                <h3 class="product-name">{{ getLocaleField(product, 'title', 'fr_ch') }}</h3>
                             </NuxtLink>
                         </div>
                     </div>
@@ -44,6 +45,11 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted, watch } from 'vue'
+import { storeToRefs } from "pinia"
+import { useUtilityStore } from "@/stores/utility"
+import { useI18n } from 'vue-i18n'
+import { getLocaleField } from '@/stores/utility'
 
 const props = defineProps({
     menuColor: {
@@ -51,44 +57,58 @@ const props = defineProps({
         default: 'white'
     }
 })
-import { ref, computed } from 'vue'
-import { storeToRefs } from "pinia";
-import { useUtilityStore } from "@/stores/utility";
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
 
-const utilityStore = useUtilityStore();
-const { getRobots } = storeToRefs(utilityStore);
+const utilityStore = useUtilityStore()
+const { getRobots } = storeToRefs(utilityStore)
+const { locale } = useI18n()
 
 onMounted(async () => {
-  if (!getRobots.value || getRobots.value.length === 0) {
-    await utilityStore.fetchRobots();
-  }
-});
-
-const { localizedData } = useLocalizedProp(getRobots.value);
-
+    if (!getRobots.value || getRobots.value.length === 0) {
+        await utilityStore.fetchRobots()
+    }
+})
+console.log(locale.value)
 const isOpen = ref(false)
-const activeCategory = ref('home')
+const activeCategory = ref(null)
 let closeTimer = null
 
-const products = {
-    home: [
-        { id: 1, name: 'PUDU CC1 Pro', slug: 'pudu-cc1-pro', image: 'https://images.unsplash.com/photo-1561144257-e32e8eaea62a?w=300&h=300&fit=crop' },
-        { id: 2, name: 'PUDU CC1 Pro', slug: 'pudu-cc1-pro-2', image: 'https://images.unsplash.com/photo-1561144257-e32e8eaea62a?w=300&h=300&fit=crop' }
-    ],
-    industrial: [
-        { id: 7, name: 'Industrial Bot X1', slug: 'industrial-x1', image: 'https://images.unsplash.com/photo-1563906267088-b029e7101114?w=300&h=300&fit=crop' }
-    ],
-    service: [
-        { id: 11, name: 'Service Bot S1', slug: 'service-s1', image: 'https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=300&h=300&fit=crop' }
-    ],
-    medical: [
-        { id: 14, name: 'Medical Bot M1', slug: 'medical-m1', image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=300&h=300&fit=crop' }
-    ]
-}
+const uniqueCategories = computed(() => {
+    if (!getRobots.value) return []
+    
+    const categoriesMap = new Map()
+    getRobots.value.forEach(robot => {
+        if (robot.fetch_parent) {
+            categoriesMap.set(robot.fetch_parent.id, robot.fetch_parent)
+        }
+    })
+    return Array.from(categoriesMap.values())
+})
+
+// Set initial active category when robots are loaded
+watch(uniqueCategories, (newCategories) => {
+    if (newCategories && newCategories.length > 0 && !activeCategory.value) {
+        activeCategory.value = newCategories[0].id
+    }
+}, { immediate: true })
+
+// Group robots by their parent category
+const robotsByCategory = computed(() => {
+    if (!getRobots.value) return {}
+    
+    const grouped = {}
+    getRobots.value.forEach(robot => {
+        const categoryId = robot.fetch_parent?.id || 'uncategorized'
+        if (!grouped[categoryId]) {
+            grouped[categoryId] = []
+        }
+        grouped[categoryId].push(robot)
+    })
+    return grouped
+})
 
 const activeProducts = computed(() => {
-    return products[activeCategory.value] || []
+    if (!activeCategory.value) return []
+    return robotsByCategory.value[activeCategory.value] || []
 })
 
 const openMenu = () => {

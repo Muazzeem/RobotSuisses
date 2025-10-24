@@ -73,3 +73,10 @@ export const truncateText = (text, length) => {
   }
   return text;
 };
+
+export const getLocaleField = (data, field, lang) => {
+	const isDefault = lang === "en";
+	const localizedField = isDefault ? field : `${field}_${lang}`;
+	let x = data[localizedField] || data[field] || "";
+	return x;
+};
