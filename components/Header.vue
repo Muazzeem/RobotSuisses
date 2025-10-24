@@ -10,7 +10,7 @@
       <NuxtLink to="/" class="nav-link">Home</NuxtLink>
       <NuxtLink to="/about" class="nav-link">About</NuxtLink>
       <ProductMenu menuColor="white" />
-      <NuxtLink to="/blog" class="nav-link" style="margin-top: 2px;">Blog</NuxtLink>
+      <NuxtLink to="/blogs" class="nav-link" style="margin-top: 2px;">Blog</NuxtLink>
     </nav>
 
     <div class="header-actions">
@@ -44,7 +44,7 @@
           <NuxtLink to="/" class="sidebar-link" @click="toggleSidebar">Home</NuxtLink>
           <NuxtLink to="/about" class="sidebar-link" @click="toggleSidebar">About</NuxtLink>
           <NuxtLink to="/products" class="sidebar-link" @click="toggleSidebar">Products</NuxtLink>
-          <NuxtLink to="/blog" class="sidebar-link" @click="toggleSidebar">Blog</NuxtLink>
+          <NuxtLink to="/blogs" class="sidebar-link" @click="toggleSidebar">Blog</NuxtLink>
         </nav>
 
         <div class="sidebar-footer">

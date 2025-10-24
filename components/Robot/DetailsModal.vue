@@ -13,7 +13,7 @@
         </div>
 
         <div class="modal-content">
-          <h2 class="modal-title">{{ robot.title }}</h2>
+          <h2 class="modal-title">{{ getLocaleField(robot, 'title', $i18n.locale) }}</h2>
 
           <!-- <div class="specs-list">
             <div class="spec-row">
@@ -62,6 +62,7 @@
 </template>
 
 <script setup>
+import { getLocaleField } from '@/utils/useLocale';
 const config = useRuntimeConfig()
 const HOST = config.public.HOST
 

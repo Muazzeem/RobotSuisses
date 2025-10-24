@@ -17,17 +17,16 @@
                 <section v-if="featuredPost" class="hero-section">
                     <NuxtLink :to="`/blog/${featuredPost.fetch_parent.slug}/${featuredPost.meta.slug}`" class="featured-post">
                         <div class="featured-image">
-                            <img :src="HOST + featuredPost.thumbnail.original.src || placeholderImage"
-                                :alt="currentLocale === 'ar' ? featuredPost.title_ar : featuredPost.title" />
+                            <img :src="HOST + featuredPost?.thumbnail?.original?.src"
+                                :alt="getLocaleField(featuredPost, 'title', $i18n.locale)" />
                         </div>
                         <div class="featured-content">
                             <time class="featured-date">{{ formatDate(featuredPost.last_published_at) }}</time>
                             <h1 class="featured-title">
-                                {{ currentLocale === 'ar' ? featuredPost.title_ar : featuredPost.title }}
+                                {{ getLocaleField(featuredPost, 'title', $i18n.locale) }}
                             </h1>
                             <p class="featured-excerpt">
-                                {{ currentLocale === 'ar' ? featuredPost.short_description_ar :
-                                    featuredPost.short_description }}
+                                {{ truncateText(getLocaleField(featuredPost, 'short_description', $i18n.locale), 300) }}
                             </p>
                            
                         </div>
@@ -38,12 +37,7 @@
                 <section v-if="regularPosts.length" class="blog-grid">
                     <NuxtLink v-for="post in regularPosts" :key="post.id" :to="`/blog/${post.fetch_parent.slug}/${post.meta.slug}`"
                         class="blog-link">
-                        <BlogCard :image="HOST + post.thumbnail.original.src || placeholderImage"
-                            :date="formatDate(post.last_published_at)"
-                            :title="currentLocale === 'ar' ? post.title_ar : post.title"
-                            :excerpt="currentLocale === 'ar' ? post.short_description_ar : post.short_description"
-                            :tags="post.tags"
-                            :author="post.author" />
+                        <BlogCard :data="post" />
                     </NuxtLink>
                 </section>
 
@@ -63,13 +57,12 @@
 </template>
 
 <script setup>
-const currentLocale = ref('en')
+import { getLocaleField } from '@/utils/useLocale';
 const loading = ref(true)
 const loadingMore = ref(false)
 const error = ref(null)
 const allPosts = ref([])
 const nextPageUrl = ref(null)
-const placeholderImage = 'https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=800'
 
 useHead({
     title: 'Blog - RobotSuisse',
@@ -91,7 +84,7 @@ const hasMore = computed(() => !!nextPageUrl.value)
 // Fetch blog posts
 const fetchBlogPosts = async (url = null) => {
     try {
-        const apiUrl = url || 'http://localhost:8000/api/v2/pages/?type=home.BlogDetailPage&fields=title_en,title_de_ch,title_fr_ch,title_it_ch,short_description_en,short_description_de_ch,short_description_fr_ch,short_description_it_ch,thumbnail,author,tags_en,tags_de_ch,tags_fr_ch,tags_it_ch,fetch_parent,last_published_at,body,is_featured,slug'
+        const apiUrl = url || 'http://localhost:8000/api/v2/pages/?type=home.BlogDetailPage&fields=title_en,title_dech,title_frch,title_itch,short_description_en,short_description_dech,short_description_frch,short_description_itch,thumbnail,author,tags_en,tags_dech,tags_frch,tags_itch,fetch_parent,last_published_at,body,is_featured,slug'
         
         const response = await fetch(apiUrl)
         
@@ -100,7 +93,6 @@ const fetchBlogPosts = async (url = null) => {
         }
         
         const data = await response.json()
-        console.log(data)
         return {
             items: data.items || data.results || [],
             next: data.meta?.next_url || data.next || null
@@ -110,7 +102,6 @@ const fetchBlogPosts = async (url = null) => {
     }
 }
 
-// Initial load
 const loadInitialPosts = async () => {
     try {
         loading.value = true

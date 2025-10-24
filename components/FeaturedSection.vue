@@ -2,7 +2,7 @@
   <section class="featured">
     <div class="products-grid">
       <RobotProductCard 
-        v-for="product in localizedData" 
+        v-for="product in rawItems" 
         :key="product.id" 
         :product="product"
         @open-modal="openModal"
@@ -22,10 +22,8 @@ const isModalOpen = ref(false)
 const selectedRobot = ref(null)
 
 import { ref } from 'vue'
-import { useLocalizedData } from '@/src/composables/useLocalizedData'
-
 const API_URL =
-  'http://localhost:8000/api/v2/pages/?type=home.RobotDetailsPage&fields=title_en,title_de_ch,title_fr_ch,title_it_ch,short_description_en,short_description_de_ch,short_description_fr_ch,short_description_it_ch,thumbnail,author,tags_en,tags_de_ch,tags_fr_ch,tags_it_ch,fetch_parent,last_published_at,body,is_featured,slug'
+  'http://localhost:8000/api/v2/pages/?type=home.RobotDetailsPage&fields=title_en,title_dech,title_frch,title_itch,short_description_en,short_description_dech,short_description_frch,short_description_itch,thumbnail,author,tags_en,tags_dech,tags_frch,tags_itch,fetch_parent,last_published_at,body,is_featured,slug'
 
 const rawItems = ref([])
 
@@ -37,8 +35,6 @@ const { data, pending, error } = await useFetch(API_URL, {
     return rawItems.value
   }
 })
-
-const { localizedData } = useLocalizedData(rawItems)
 
 const openModal = (product) => {
   selectedRobot.value = product

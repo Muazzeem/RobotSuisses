@@ -7,9 +7,9 @@
         >
             <div class="overlay"></div>
             <div class="content">
-                <div class="richtext" v-html="localizedData.text"></div>
+                <div class="richtext" v-html="getLocaleField(data, 'text', $i18n.locale)"></div>
                 <a :href="props?.data?.button_link" class="cta-button">
-                  {{ localizedData?.button_text }}
+                  {{ getLocaleField(data, 'button_text' , $i18n.locale) }}
                   <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
@@ -20,8 +20,8 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { computed } from 'vue'
+import { getLocaleField } from '@/utils/useLocale';
 
 const props = defineProps({
   data: {
@@ -30,7 +30,6 @@ const props = defineProps({
   }
 });
 
-const { localizedData } = useLocalizedProp(props.data);
 const config = useRuntimeConfig()
 const HOST = config.public.HOST
 const ImageUrl = computed(() => {

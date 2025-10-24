@@ -4,14 +4,16 @@
     <div class="container">
       <div class="hero-content">
         <h1 class="hero-title">
-          {{ localizedData?.title }}
+          {{ getLocaleField(data, 'title', $i18n.locale) }}
         </h1>
         <p class="hero-description">
-          {{ localizedData?.subtitle }}
+          {{ getLocaleField(data, 'subtitle', $i18n.locale) }}
         </p>
         <div class="hero-stats">
-          <div class="stat" v-for="(item, index) in localizedData?.sub_items" :key="index">
-            <div class="stat-value">{{ item?.title }}</div>
+          <div class="stat" v-for="(item, index) in data?.sub_items" :key="index">
+            <div class="stat-value">
+              {{ getLocaleField(item, 'title', $i18n.locale) }}
+            </div>
           </div>
         </div>
       </div>
@@ -20,7 +22,7 @@
 </template>
 
 <script setup>
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { getLocaleField } from '@/utils/useLocale';
 
 const props = defineProps({
   data: {
@@ -28,8 +30,6 @@ const props = defineProps({
     required: true
   }
 });
-
-const { localizedData, currentLocale } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

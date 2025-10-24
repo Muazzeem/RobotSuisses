@@ -22,7 +22,7 @@
                     <img :src="getFullImageUrl(member.image.original.src)" :alt="member.title" />
                   </div>
                   <div class="card-content">
-                    <div class="card-description" v-html="member.description"></div>
+                    <div class="card-description" v-html="getLocaleField(member, 'description', $i18n.locale)"></div>
                   </div>
                 </div>
               </div>
@@ -69,8 +69,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRuntimeConfig } from "#app";
-
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { getLocaleField } from '@/utils/useLocale';
 
 const props = defineProps({
   data: {
@@ -79,15 +78,15 @@ const props = defineProps({
   }
 });
 
-const { localizedData } = useLocalizedProp(props.data);
-
 const config = useRuntimeConfig()
 const HOST = config.public.HOST
 
 // Carousel setup
 const currentSlide = ref(0)
 const membersPerSlide = 3
-const members = computed(() => localizedData.value || [])
+console.log(props.data)
+
+const members = computed(() => props.data || [])
 const totalSlides = computed(() => Math.ceil(members.value.length / membersPerSlide))
 
 const getSlideMembers = (slideIndex) => {

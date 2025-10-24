@@ -21,7 +21,7 @@
                         <button v-for="category in uniqueCategories" :key="category.id" class="category-item"
                             :class="{ active: activeCategory === category.id }"
                             @mouseenter="setActiveCategory(category.id)">
-                            <!-- {{ getLocalizedTitle(category) }} -->
+                            {{ category.title_en }}
                         </button>
                     </div>
 
@@ -31,10 +31,10 @@
                             <NuxtLink v-for="product in activeProducts" :key="product.id"
                                 :to="`/products/${product.meta?.slug || product.slug}`" class="product-card" @click="closeMenu">
                                 <div class="product-image">
-                                    <img :src="product.thumbnail?.original?.src || product.image" 
-                                         :alt="getLocaleField(product, 'title', 'de_ch')" />
+                                    <img :src="HOST + product.thumbnail?.original?.src || product.image" 
+                                         :alt="getLocaleField(product, 'title', $i18n.locale)" />
                                 </div>
-                                <h3 class="product-name">{{ getLocaleField(product, 'title', 'fr_ch') }}</h3>
+                                <h3 class="product-name">{{ getLocaleField(product, 'title', $i18n.locale) }}</h3>
                             </NuxtLink>
                         </div>
                     </div>
@@ -47,9 +47,12 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { storeToRefs } from "pinia"
-import { useUtilityStore } from "@/stores/utility"
-import { useI18n } from 'vue-i18n'
-import { getLocaleField } from '@/stores/utility'
+import { useUtilityStore, getLocaleField } from "@/stores/utility"
+
+const config = useRuntimeConfig();
+const HOST = computed(() => {
+	return config.public.HOST;
+});
 
 const props = defineProps({
     menuColor: {
@@ -60,14 +63,12 @@ const props = defineProps({
 
 const utilityStore = useUtilityStore()
 const { getRobots } = storeToRefs(utilityStore)
-const { locale } = useI18n()
 
 onMounted(async () => {
     if (!getRobots.value || getRobots.value.length === 0) {
         await utilityStore.fetchRobots()
     }
 })
-console.log(locale.value)
 const isOpen = ref(false)
 const activeCategory = ref(null)
 let closeTimer = null

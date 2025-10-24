@@ -2,15 +2,15 @@
   <section class="why-choose" :style="{ background: props.data.bg_color_code }">
     <div class="container">
       <div class="section-header">
-        <div class="category-tag">{{ localizedData.tag }}</div>
-        <div class="richtext" v-html="localizedData.title"></div>
+        <div class="category-tag">{{ getLocaleField(props.data, 'tag', $i18n.locale) }}</div>
+        <div class="richtext" v-html="getLocaleField(props.data, 'title', $i18n.locale)"></div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { getLocaleField } from '@/utils/useLocale';
 
 const props = defineProps({
   data: {
@@ -18,8 +18,6 @@ const props = defineProps({
     required: true
   }
 });
-
-const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

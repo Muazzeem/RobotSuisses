@@ -1,13 +1,13 @@
 <template>
   <section class="why-choose">
     <div class="container">
-        <div class="custom-block" v-html="localizedData"></div>
+        <div class="custom-block" v-html="getLocaleField(data, 'text', $i18n.locale)"></div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { getLocaleField } from '@/utils/useLocale';
 
 const props = defineProps({
   data: {
@@ -16,7 +16,6 @@ const props = defineProps({
   }
 });
 
-const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

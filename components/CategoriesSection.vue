@@ -3,11 +3,11 @@
   <section class="categories">
     <div class="container">
       <div class="categories-grid">
-        <div class="category-card" v-for="(item, index) in localizedData.items" :key="index">
+        <div class="category-card" v-for="(item, index) in data.items" :key="index">
           <div class="category-card" :style="{ backgroundImage: `url(${HOST + item?.image?.original?.src})` }">
             <div class="category-content">
               <div class="card-content">
-                <div v-html="item.description"></div>
+                <div v-html="getLocaleField(item, 'description', $i18n.locale)"></div>
               </div>
             </div>
           </div>
@@ -19,7 +19,8 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { getLocaleField } from '@/utils/useLocale';
+
 const config = useRuntimeConfig()
 const HOST = computed(() => {
 	return config.public.HOST
@@ -30,8 +31,6 @@ const props = defineProps({
     required: true
   }
 });
-
-const { localizedData } = useLocalizedProp(props.data);
 
 </script>
 

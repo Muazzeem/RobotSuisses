@@ -51,7 +51,7 @@ export const useUtilityStore = defineStore("utilityStore", {
 
       try {
         const config = useRuntimeConfig();
-        const data = await $fetch(`${PAGE_API_ROOT}/?type=home.RobotDetailsPage&fields=title_en,title_de_ch,title_fr_ch,title_it_ch,thumbnail,fetch_parent,slug`, {
+        const data = await $fetch(`${PAGE_API_ROOT}/?type=home.RobotDetailsPage&fields=title_en,title_dech,title_frch,title_itch,thumbnail,fetch_parent,slug`, {
           baseURL: config.public.baseURL,
         });
 

@@ -2,13 +2,13 @@
   <section class="faq-section">
     <div class="container"> 
       <div class="faq-list">
-        <div v-for="(item, index) in localizedData.items" :key="index" class="faq-item" :class="{ active: activeIndex === index }">
+        <div v-for="(item, index) in data.items" :key="index" class="faq-item" :class="{ active: activeIndex === index }">
           <button class="faq-question" @click="toggleFaq(index)" :aria-expanded="activeIndex === index">
-            <span>{{ item?.question }}</span>
+            <span>{{ getLocaleField(item, 'question', $i18n.locale) }}</span>
             <span class="icon">{{ activeIndex === index ? '×' : '+' }}</span>
           </button>
           <div class="faq-answer" v-show="activeIndex === index">
-            <div v-html="item?.answer"></div>
+            <div v-html="getLocaleField(item, 'answer', $i18n.locale)"></div>
           </div>
         </div>
       </div>
@@ -17,18 +17,15 @@
 </template>
 
 <script setup>
+import { getLocaleField } from '@/utils/useLocale';
+
 const activeIndex = ref(0);
-
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
-
 const props = defineProps({
   data: {
     type: Object,
     required: true
   }
 });
-
-const { localizedData } = useLocalizedProp(props.data);
 
 const toggleFaq = (index) => {
   activeIndex.value = activeIndex.value === index ? null : index;

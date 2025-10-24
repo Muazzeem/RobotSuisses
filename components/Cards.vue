@@ -3,14 +3,14 @@
     <div class="container">
       <div class="cards-grid">
         <div 
-          v-for="(item, index) in localizedData.items" 
+          v-for="(item, index) in data.items" 
           :key="index" 
           class="card"
         >
           <div class="icon-wrapper">
             <i :class="item?.icon" class="icon-size"></i>
           </div>
-          <div class="card-description richtext" v-html="item.description"></div>
+          <div class="card-description richtext" v-html="getLocaleField(item, 'description', $i18n.locale)"></div>
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { getLocaleField } from '@/utils/useLocale';
 
 const props = defineProps({
   data: {
@@ -26,8 +26,6 @@ const props = defineProps({
     required: true
   }
 });
-console.log(props.data)
-const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

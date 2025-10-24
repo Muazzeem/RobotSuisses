@@ -17,7 +17,7 @@ const config = useRuntimeConfig()
 const HOST = config.public.HOST
 
 const API_URL =
-  'http://localhost:8000/api/v2/pages/?type=home.BlogDetailPage&fields=title_en,title_de_ch,title_fr_ch,title_it_ch,short_description_en,short_description_de_ch,short_description_fr_ch,short_description_it_ch,thumbnail,author,tags_en,tags_de_ch,tags_fr_ch,tags_it_ch,fetch_parent,last_published_at,body,is_featured,slug'
+  'http://localhost:8000/api/v2/pages/?type=home.BlogDetailPage&fields=title_en,title_dech,title_frch,title_itch,short_description_en,short_description_dech,short_description_frch,short_description_itch,thumbnail,author,tags_en,tags_dech,tags_frch,tags_itch,fetch_parent,last_published_at,body,is_featured,slug'
 
 // Reactive data to fetch
 const rawItems = ref([])

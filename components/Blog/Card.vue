@@ -1,24 +1,26 @@
 <template>
     <article class="blog-card">
         <div class="blog-image">
-            <img :src="HOST + data?.thumbnail?.original?.src" :alt="data.title" />
+            <img :src="HOST + data?.thumbnail?.original?.src" :alt="getLocaleField(data, 'title', $i18n.locale)" />
         </div>
         <div class="blog-content">
             <time class="blog-date">{{ dayjs(data.last_published_at).format('DD MMM, YYYY') }}</time>
-            <h3 class="blog-title">{{ data.title }}</h3>
-            <p class="blog-excerpt">{{ truncateText(data.short_description, 100) }}</p>
+            <h3 class="blog-title">{{ truncateText(getLocaleField(data, 'title', $i18n.locale), 20) }}</h3>
+            <p class="blog-excerpt">{{ truncateText(getLocaleField(data, 'short_description', $i18n.locale), 100) }}</p>
         </div>
     </article>
 </template>
 
 <script setup>
 import dayjs from 'dayjs'
+import { getLocaleField } from '@/utils/useLocale';
+
 const config = useRuntimeConfig();
 const HOST = computed(() => {
 	return config.public.HOST;
 });
 
-defineProps({
+const props = defineProps({
     data: {
         type: Object,
         required: true

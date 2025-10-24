@@ -4,10 +4,10 @@
       <div class="quote-card">
         <div class="quote-mark">"</div>
         <blockquote class="quote-text">
-          {{ localizedData.quote }}
+          {{ getLocaleField(data, 'quote', $i18n.locale) }}
         </blockquote>
         <p class="quote-author">
-            {{ localizedData.author }}
+            {{ getLocaleField(data, 'author', $i18n.locale) }}
         </p>
       </div>
     </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { useLocalizedProp } from '@/src/composables/useLocalizedData';
+import { getLocaleField } from '@/utils/useLocale';
 
 const props = defineProps({
   data: {
@@ -24,7 +24,6 @@ const props = defineProps({
   }
 });
 
-const { localizedData } = useLocalizedProp(props.data);
 </script>
 
 <style scoped>

@@ -1,28 +1,20 @@
 <template>
   <div class="product-card">
     <div class="product-image">
-      <img :src="HOST + product?.thumbnail?.original?.src" :alt="product.title" class="image" />
-      <span class="product-badge">{{ product.fetch_parent.title }}</span>
+      <img :src="HOST + product?.thumbnail?.original?.src" :alt="product.title_en" class="image" />
+      <span class="product-badge">{{ getLocaleField(product.fetch_parent, 'title', $i18n.locale) }}</span>
     </div>
 
     <div class="product-content">
-      <h3 class="product-name">{{ product.title }}</h3>
+      <h3 class="product-name">{{ getLocaleField(product, 'title', $i18n.locale) }}</h3>
       <!-- <div class="product-price">CHF {{ product.price.toLocaleString() }}</div> -->
 
       <div class="product-specs">
        <div class="spec-item">
           <span class="spec-label">
-            {{ truncateText(product.short_description, 100) }}
+            {{ getLocaleField(product, 'short_description', $i18n.locale) }}
           </span>
         </div>
-         <!-- <div class="spec-item">
-          <span class="spec-label">Coverage:</span>
-          <span class="spec-value">{{ product.coverage }}</span>
-        </div>
-        <div class="spec-item">
-          <span class="spec-label">Noise Level:</span>
-          <span class="spec-value">{{ product.noiseLevel }}</span>
-        </div> -->
       </div>
 
       <div class="product-actions">
@@ -36,17 +28,19 @@
 </template>
 
 <script setup>
+import { getLocaleField } from '@/utils/useLocale';
 const config = useRuntimeConfig()
 const HOST = config.public.HOST
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     required: true
   }
 })
-
 defineEmits(['open-modal'])
+
+console.log(props.product)
 </script>
 
 <style scoped>
