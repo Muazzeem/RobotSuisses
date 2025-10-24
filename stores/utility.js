@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { PUBLIC_SETTINGS_ENDPOINT } from "@/utils/endpoints";
+import { PUBLIC_SETTINGS_ENDPOINT, PAGE_API_ROOT } from "@/utils/endpoints";
 
 export const useUtilityStore = defineStore("utilityStore", {
   state: () => ({
@@ -8,7 +8,8 @@ export const useUtilityStore = defineStore("utilityStore", {
     main_menus: null,
     footer_menus: null,
     robots: null,
-    isLoaded: false,
+    isSettingsLoaded: false,
+    isRobotsLoaded: false,
   }),
 
   getters: {
@@ -21,7 +22,7 @@ export const useUtilityStore = defineStore("utilityStore", {
 
   actions: {
     async fetchSettings() {
-      if (this.isLoaded) {
+      if (this.isSettingsLoaded) {
         return;
       }
 
@@ -35,7 +36,7 @@ export const useUtilityStore = defineStore("utilityStore", {
         this.socials = data?.social_setting || null;
         this.main_menus = data?.main_menus || [];
         this.footer_menus = data?.footer_menus || [];
-        this.isLoaded = true;
+        this.isSettingsLoaded = true;
 
         return data;
       } catch (error) {
@@ -44,19 +45,18 @@ export const useUtilityStore = defineStore("utilityStore", {
       }
     },
     async fetchRobots() {
-      if (this.isLoaded) {
+      if (this.isRobotsLoaded) {
         return;
       }
 
       try {
         const config = useRuntimeConfig();
-        const data = await $fetch(`http://localhost:8000/api/v2/pages/?type=home.RobotDetailsPage&fields=title_en,title_de_ch,title_fr_ch,title_it_ch,short_description_en,short_description_de_ch,short_description_fr_ch,short_description_it_ch,thumbnail,author,tags_en,tags_de_ch,tags_fr_ch,tags_it_ch,fetch_parent,last_published_at,body,is_featured,slug`, {
+        const data = await $fetch(`${PAGE_API_ROOT}/?type=home.RobotDetailsPage&fields=title_en,title_de_ch,title_fr_ch,title_it_ch,thumbnail,fetch_parent,slug`, {
           baseURL: config.public.baseURL,
         });
 
         this.robots = data?.items || [];
-        console.log(data);
-        this.isLoaded = true;
+        this.isRobotsLoaded = true;
 
         return data;
       } catch (error) {
@@ -68,8 +68,8 @@ export const useUtilityStore = defineStore("utilityStore", {
 });
 
 export const truncateText = (text, length) => {
-	if (text.length > length) {
-		return text.substring(0, length) + " ...";
-	}
-	return text;
+  if (text.length > length) {
+    return text.substring(0, length) + " ...";
+  }
+  return text;
 };

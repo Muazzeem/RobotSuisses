@@ -18,10 +18,10 @@
                 <div class="menu-container">
                     <!-- Categories Sidebar -->
                     <div class="categories-sidebar">
-                        <button v-for="category in categories" :key="category.id" class="category-item"
+                        <button v-for="category in localizedData" :key="category.id" class="category-item"
                             :class="{ active: activeCategory === category.id }"
                             @mouseenter="setActiveCategory(category.id)">
-                            {{ category.name }}
+                            {{ category.title }}
                         </button>
                     </div>
 
@@ -54,6 +54,7 @@ const props = defineProps({
 import { ref, computed } from 'vue'
 import { storeToRefs } from "pinia";
 import { useUtilityStore } from "@/stores/utility";
+import { useLocalizedProp } from '@/src/composables/useLocalizedData';
 
 const utilityStore = useUtilityStore();
 const { getRobots } = storeToRefs(utilityStore);
@@ -62,19 +63,13 @@ onMounted(async () => {
   if (!getRobots.value || getRobots.value.length === 0) {
     await utilityStore.fetchRobots();
   }
-  console.log("Robots:", getRobots.value);
 });
+
+const { localizedData } = useLocalizedProp(getRobots.value);
 
 const isOpen = ref(false)
 const activeCategory = ref('home')
 let closeTimer = null
-
-const categories = [
-    { id: 'home', name: 'Home Robots' },
-    { id: 'industrial', name: 'Industrial Robots' },
-    { id: 'service', name: 'Service Robots' },
-    { id: 'medical', name: 'Medical Robots' }
-]
 
 const products = {
     home: [
